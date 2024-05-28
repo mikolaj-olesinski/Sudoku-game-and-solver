@@ -20,8 +20,10 @@ def validate_cell_changed_text(cell):
 
     if not square.validate_square(cell_row, cell_col) or not window.validate_column(cell_col) or not window.validate_row(cell_row):
         cell.setStyleSheet('background-color: red')
+        return False
     else:
         cell.setStyleSheet('background-color: dark grey')
+        return True
 
 
     
@@ -30,6 +32,8 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
     sudoku = Sudoku()
+    sudoku.update_board('sudoku.txt')
+    sudoku.setStyleSheet(open('style.qss').read())
     window = sudoku
     window.show()
 

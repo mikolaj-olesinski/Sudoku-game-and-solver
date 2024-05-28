@@ -2,10 +2,11 @@
 
 QLineEdit {
     border: 1px solid #000;
-    font-size: 20px;
+    font-size: 32px;
+    color: #458;
 }
 
 QLineEdit:focus {
-    border: 2px solid #2cb;
+    border: 2px solid #47c;
 }
 

@@ -129,10 +129,39 @@ class Sudoku(QWidget):
         if len(numbers) != len(set(numbers)):
             return False
         return True
+    
+    def get_board_from_file(self, filename):
+        with open(filename, 'r') as file:
+            content = file.read().replace('\n', '').split(',')
 
+        board = {}
+        for i in range(9):
+            for j in range(9):
+                board[f'cell_{i}_{j}'] = content[i * 9 + j]
 
+        return board
+
+    def update_board(self, filename):
+        board = self.get_board_from_file(filename)
+
+        for cell_name, value in board.items():
+            cell = self.cells[cell_name]
+            
+            if value != '0':
+                if value[0] == 'C':
+                    cell.setText(value[1])
+                    cell.setFocusPolicy(Qt.NoFocus)
+                    cell.setStyleSheet('color: white')
+                elif value[0] == 'U':
+                    cell.setText(value[1])
+            
+            else:
+                cell.setText('')
+
+            
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Sudoku()
+    ex.get_board_from_file('sudoku.txt')
     ex.show()
     sys.exit(app.exec())
