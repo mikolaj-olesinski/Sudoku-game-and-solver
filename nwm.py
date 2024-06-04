@@ -29,6 +29,7 @@ class UserCell(QLineEdit):
         self.setFixedSize(other.size())
         self.setValidator(other.validator())
         self.setMaxLength(other.maxLength())
+        self.setText(other.text())
 
 class ComputerCell(QLineEdit):
     def __init__(self):
@@ -51,7 +52,6 @@ class BlankCell(QLineEdit):
         self.setFixedSize(other.size())
         self.setValidator(other.validator())
         self.setMaxLength(other.maxLength())
-
 
 
 
@@ -83,3 +83,12 @@ def get_board_from_db(sudoku_id):
 
     session.close()
     return board
+
+def get_data_from_sudoku(sudoku):
+    cells = sudoku.cells
+    string = ''
+
+    for i in range(9):
+        for j in range(9):
+            string += f'{cells[i][j].text()},'
+    

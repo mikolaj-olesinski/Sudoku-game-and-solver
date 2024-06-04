@@ -1,7 +1,7 @@
 import sys
 from PySide6.QtWidgets import QApplication, QWidget, QGridLayout, QLineEdit, QFrame
 from PySide6.QtCore import Qt
-from nwm import NonZeroValidator
+from nwm import NonZeroValidator, UserCell, ComputerCell, BlankCell
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
@@ -26,7 +26,7 @@ class SudokuSquare(QWidget):
         for row in range(3):
             row_cells = []
             for col in range(3):
-                cell = QLineEdit()
+                cell = BlankCell()
                 cell.setAlignment(Qt.AlignCenter)
                 cell.setFixedSize(80, 80)  # Ustawienie stałego rozmiaru komórki
                 cell.setValidator(NonZeroValidator())
@@ -77,6 +77,10 @@ class Sudoku(QWidget):
         for i, row in enumerate(self.squares):
             for j, square in enumerate(row):
                 square.setObjectName(f'square_{i}_{j}')
+
+                layout = square.layout()
+                layout.setObjectName(f'layout_{i}_{j}')
+
                 for x, row in enumerate(square.cells):
                     for y, cell in enumerate(row):
                         cell.setObjectName(f'cell_{i * 3 + x}_{j * 3 + y}')
@@ -123,18 +127,30 @@ class Sudoku(QWidget):
 
     def update_board(self, board):
         for cell_name, value in board.items():
-            cell = self.cells[cell_name]
+            old_cell = self.cells[cell_name]
             
             if value != '0':
                 if value[0] == 'C':
+                    cell = ComputerCell()
+                    self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                     cell.setText(value[1])
-                    cell.setFocusPolicy(Qt.NoFocus)
-                    cell.setStyleSheet('color: white')
                 elif value[0] == 'U':
+                    cell = UserCell()
+                    self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                     cell.setText(value[1])
+
             
             else:
-                cell.setText('')
+                old_cell.setText('')
+
+    def switch_cell(self, new_cell, x_row, y_column):
+        old_cell = self.cells[f'cell_{x_row}_{y_column}']
+        
+        new_cell.copy_properties(old_cell)
+        self.cells[f'cell_{x_row}_{y_column}'] = new_cell
+        
+        layout = old_cell.parent().layout()
+        layout.replaceWidget(old_cell, new_cell)
 
             
 if __name__ == '__main__':

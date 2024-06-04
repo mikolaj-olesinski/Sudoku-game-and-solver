@@ -8,7 +8,7 @@ from nwm import get_board_from_db
 
 
 def display_cell_text(cell):
-    print(cell.objectName())
+    print(cell)
 
 def validate_cell_changed_text(cell):
     cell_row = int(cell.objectName()[5])
@@ -18,9 +18,10 @@ def validate_cell_changed_text(cell):
     square_col = cell_col // 3
 
     square = window.squares[f'square_{square_row}_{square_col}']
-
+    print(cell)
     if not square.validate_square(cell_row, cell_col) or not window.validate_column(cell_col) or not window.validate_row(cell_row):
         cell.setStyleSheet('background-color: red')
+        cell.setText('')
         return False
     else:
         cell.setStyleSheet('background-color: dark grey')
@@ -42,6 +43,7 @@ if __name__ == '__main__':
 
     cells = sudoku.cells
     for cell in cells:
+        #cells[cell].returnPressed.connect(lambda cell=cell: display_cell_text(cells[cell]))
         cells[cell].editingFinished.connect(lambda cell=cell: validate_cell_changed_text(cells[cell]))
 
 
