@@ -3,6 +3,7 @@ import sys
 from PySide6.QtWidgets import QApplication, QWidget, QGridLayout, QLineEdit, QFrame
 from PySide6.QtGui import QIntValidator
 from PySide6.QtCore import Qt
+from nwm import get_board_from_db
 
 
 
@@ -32,7 +33,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
     sudoku = Sudoku()
-    sudoku.update_board('sudoku.txt')
+    sudoku.update_board(get_board_from_db(1))
     sudoku.setStyleSheet(open('style.qss').read())
     window = sudoku
     window.show()

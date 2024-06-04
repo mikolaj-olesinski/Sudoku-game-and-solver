@@ -1,6 +1,16 @@
-
-
 QLineEdit {
+    border: 1px solid #000;
+    font-size: 32px;
+    color: #458;
+}
+
+UserCell {
+    border: 1px solid #000;
+    font-size: 32px;
+    color: #458;
+}
+
+ComputerCell {
     border: 1px solid #000;
     font-size: 32px;
     color: #458;
@@ -9,4 +19,6 @@ QLineEdit {
 QLineEdit:focus {
     border: 2px solid #47c;
 }
+
+
 

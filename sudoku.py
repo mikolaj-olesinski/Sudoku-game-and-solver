@@ -1,21 +1,11 @@
 import sys
 from PySide6.QtWidgets import QApplication, QWidget, QGridLayout, QLineEdit, QFrame
-from PySide6.QtGui import QIntValidator, QValidator
 from PySide6.QtCore import Qt
-
-class NonZeroValidator(QValidator):
-    def validate(self, input_str, pos):
-        if not input_str:
-            return (QValidator.Acceptable, input_str, pos)
-        try:
-            value = int(input_str)
-            if value != 0:
-                return (QValidator.Acceptable, input_str, pos)
-            else:
-                return (QValidator.Invalid, input_str, pos)
-        except ValueError:
-            return (QValidator.Invalid, input_str, pos)
-        
+from nwm import NonZeroValidator
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from datetime import datetime
+from dataBase.models import Sudoku, User, UsersSudoku, Base
 
 class SudokuSquare(QWidget):
     def __init__(self):
@@ -130,20 +120,8 @@ class Sudoku(QWidget):
             return False
         return True
     
-    def get_board_from_file(self, filename):
-        with open(filename, 'r') as file:
-            content = file.read().replace('\n', '').split(',')
 
-        board = {}
-        for i in range(9):
-            for j in range(9):
-                board[f'cell_{i}_{j}'] = content[i * 9 + j]
-
-        return board
-
-    def update_board(self, filename):
-        board = self.get_board_from_file(filename)
-
+    def update_board(self, board):
         for cell_name, value in board.items():
             cell = self.cells[cell_name]
             
