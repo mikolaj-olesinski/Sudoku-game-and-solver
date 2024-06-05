@@ -61,7 +61,7 @@ class SudokuGUI(QWidget):
 
         self.setLayout(main_layout)
         self.setWindowTitle('Sudoku Application')
-        self.setGeometry(100, 100, 700, 700)
+        self.setGeometry(100, 100, 700, 600)
 
 
 

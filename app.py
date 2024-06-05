@@ -49,4 +49,23 @@ if __name__ == '__main__':
     sys.exit(app.exec())
 
 
+    # app = QApplication(sys.argv)
+    # app.setStyle('Fusion')
+    # sudoku = Sudoku()
+    # sudoku.update_board(get_board_from_db(1))
+    # sudoku.setStyleSheet(open('style.qss').read())
+    # window = sudoku
+    # window.show()
+
+
+
+    # cells = sudoku.cells
+    # for cell in cells:
+    #     #cells[cell].returnPressed.connect(lambda cell=cell: display_cell_text(cells[cell]))
+    #     cells[cell].editingFinished.connect(lambda cell=cell: validate_cell_changed_text(cells[cell]))
+
+
+    # sys.exit(app.exec())
+
+
 

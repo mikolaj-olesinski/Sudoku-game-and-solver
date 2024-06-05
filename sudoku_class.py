@@ -108,6 +108,6 @@ class Sudoku(QWidget):
             
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    main_window = SudokuGUI()
-    main_window.show()
-    sys.exit(app.exec())
+    sudoku = Sudoku()
+    sudoku.show()
+    sys.exit(app.exec_())

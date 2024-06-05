@@ -1,5 +1,5 @@
 QLineEdit{
-    border: 1px solid #000;
+    border: 2px solid #000;
     font-size: 32px;
     color: #b56
 }

@@ -13,8 +13,7 @@ class SudokuSquare(QWidget):
 
         layout = QGridLayout()
         self.setLayout(layout)
-        self.layout().setContentsMargins(0, 0, 0, 0)
-        self.layout().setSpacing(0)
+        layout.setSpacing(0)
     
 
         self.cells = []
@@ -28,6 +27,7 @@ class SudokuSquare(QWidget):
                 cell.setValidator(NonZeroValidator())
                 cell.setMaxLength(1)
                 layout.addWidget(cell, row, col)
+                layout.setContentsMargins(0, 0, 0, 0)
                 row_cells.append(cell)
             self.cells.append(row_cells)
 
