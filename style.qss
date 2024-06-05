@@ -1,21 +1,7 @@
-/* BlankCell {
-    border: 1px solid #000;
-    font-size: 32px;
-    color: #458;
-}
-
-
-ComputerCell {
-    border: 1px solid #000;
-    font-size: 32px;
-    color: #ddd;
-} */
-
-
 QLineEdit{
     border: 1px solid #000;
     font-size: 32px;
-    color: #458;
+    color: #b56
 }
 
 QLineEdit:focus {

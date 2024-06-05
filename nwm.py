@@ -34,6 +34,7 @@ class UserCell(QLineEdit):
 class ComputerCell(QLineEdit):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet('color: #ddd;')
 
     def copy_properties(self, other):
         self.setObjectName(other.objectName())
@@ -45,6 +46,7 @@ class ComputerCell(QLineEdit):
 class BlankCell(QLineEdit):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet('color: #458;')
 
     def copy_properties(self, other):
         self.setObjectName(other.objectName())
