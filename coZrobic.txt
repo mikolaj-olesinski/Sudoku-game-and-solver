@@ -1,0 +1,10 @@
+Niezrobione:
+    - score
+    - lepszy wyglad sudoku_gui
+    - logowanie
+    - wyswietlanie wyboru sudoku
+
+
+
+
+Zrobione:

@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship, declarative_base
 
 Base = declarative_base()
@@ -9,7 +9,9 @@ class Sudoku_model(Base):
     data = Column(String)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
-    solved = Column(String)
+    solved_data = Column(String)
+    solved = Column(Boolean)
+    difficulty = Column(String)
 
 
 class User_model(Base):

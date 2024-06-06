@@ -5,17 +5,20 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from models import Sudoku_model, User_model, UsersSudoku_model
-from model.utils.func import solve_sudoku, databaseData_to_grid, flatten_to_string
+from model.utils.func import solve_sudoku, databaseData_to_grid, flatten_to_string, find_difficulty
 
 
 
-def addSudoku(data, created_at):
-    sudoku = Sudoku_model(data=data, created_at=created_at)
-    grid = databaseData_to_grid(data)
-    solve_sudoku(grid)
-    grid = flatten_to_string(grid)
+def addSudoku(data):
+    sudoku = Sudoku_model(data=data, created_at=datetime.now(), updated_at=None, solved=False)
     
-    sudoku.solved = grid
+    grid = databaseData_to_grid(data)
+    isSolved, steps = solve_sudoku(grid)
+    grid = flatten_to_string(grid)
+
+    sudoku.difficulty = find_difficulty(isSolved, steps)
+    sudoku.solved_data = grid
+
     session.add(sudoku)
     session.commit()
 
@@ -48,5 +51,5 @@ if __name__ == '__main__':
                 "0,C3,0,C7,0,C1,C4,C9,C5," \
                 "C5,C6,C7,C4,C2,C9,0,C1,C3"
 
-    addSudoku(sudoku_data, datetime.now())
+    addSudoku(data=sudoku_data)
 

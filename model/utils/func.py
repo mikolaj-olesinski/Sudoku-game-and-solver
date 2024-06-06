@@ -44,16 +44,6 @@ def get_data_from_sudoku(sudoku):
     return string
     
 def isValid(grid, r, c, k):
-    for i in range(9):
-        if grid[r][i] == k or grid[i][c] == k:
-            return False
-    for i in range(3):
-        for j in range(3):
-            if grid[r + i][c + j] == k:
-                return False
-    return True
-
-def isValid(grid, r, c, k):
     # Sprawdzenie wiersza
     for i in range(9):
         if grid[r][i] == k:
@@ -73,21 +63,46 @@ def isValid(grid, r, c, k):
     
     return True
 
-def solve_sudoku(grid, r=0, c=0):
+def solve_sudoku(grid, r=0, c=0, steps=None):
+    if steps is None:
+        steps = {'basic': 0, 'advanced': 0}
+
     if r == 9:
-        return True
+        return True, steps
     if c == 9:
-        return solve_sudoku(grid, r + 1, 0)
+        return solve_sudoku(grid, r + 1, 0, steps)
     if grid[r][c] != 0:
-        return solve_sudoku(grid, r, c + 1)
+        return solve_sudoku(grid, r, c + 1, steps)
     else:
         for k in range(1, 10):
             if isValid(grid, r, c, k):
                 grid[r][c] = k
-                if solve_sudoku(grid, r, c + 1):
-                    return True
+                steps['basic'] += 1  # Count basic step
+                solved, steps = solve_sudoku(grid, r, c + 1, steps)
+                if solved:
+                    return True, steps
                 grid[r][c] = 0
-        return False
+        steps['advanced'] += 1  # Count backtracking as an advanced step
+        return False, steps
+
+def rate_difficulty(steps):
+    basic_steps = steps['basic']
+    advanced_steps = steps['advanced']
+    
+    if basic_steps > 40 and advanced_steps < 10:
+        return "Easy"
+    elif basic_steps > 30 and advanced_steps < 20:
+        return "Medium"
+    elif basic_steps > 20 and advanced_steps < 30:
+        return "Hard"
+    else:
+        return "Very Hard"
+
+def find_difficulty(isSolved, steps):
+    if isSolved:
+        return rate_difficulty(steps)
+    else:
+        return "Unsolvable"
     
 def get_hint_for_sudoku(data, solved):
     empty_positions = [(i, j) for i in range(9) for j in range(9) if data[i][j] == 0]

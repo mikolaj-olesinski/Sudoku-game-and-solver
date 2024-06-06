@@ -30,7 +30,7 @@ def hint_for_sudoku(sudoku, row = None, col = None):
 
     sudoku_model = session.query(Sudoku_model).filter(Sudoku_model.id == sudoku.id).first()
 
-    solved_data = databaseData_to_grid(sudoku_model.solved)
+    solved_data = databaseData_to_grid(sudoku_model.solved_data)
     data = get_data_from_sudoku(sudoku)
     data = databaseData_to_grid(data)
 
