@@ -32,6 +32,7 @@ def validate_cell_changed_text(cell, sudoku):
     
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    app.setStyle('Fusion')
 
     main_window = SudokuGUI()
 
@@ -47,6 +48,17 @@ if __name__ == '__main__':
     main_window.show()
 
     sys.exit(app.exec())
+
+
+
+
+
+
+
+
+
+
+
 
 
     # app = QApplication(sys.argv)

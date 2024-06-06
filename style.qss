@@ -1,12 +1,259 @@
 QLineEdit{
-    border: 2px solid #000;
-    font-size: 32px;
-    color: #b56
+    border: 1px solid #000;
+    font-size: 35px;
+    background-color: #2affffff;
 }
+
+
+QLineEdit#cell_0_0 {
+    border-top: 4px solid #000;
+    border-left: 4px solid #000;
+}
+
+QLineEdit#cell_0_1 {
+    border-top: 4px solid #000;
+}
+
+QLineEdit#cell_0_2 {
+    border-top: 4px solid #000;
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_0_3 {
+    border-top: 4px solid #000;
+}
+
+QLineEdit#cell_0_4 {
+    border-top: 4px solid #000;
+}
+
+QLineEdit#cell_0_5 {
+    border-top: 4px solid #000;
+}
+
+QLineEdit#cell_0_6 {
+    border-top: 4px solid #000;
+    border-left: 4px solid #000;
+}
+
+QLineEdit#cell_0_7 {
+    border-top: 4px solid #000;
+}
+
+QLineEdit#cell_0_8 {
+    border-top: 4px solid #000;
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_1_0 {
+    border-left: 4px solid #000;
+}
+
+QLineEdit#cell_1_2 {
+    border-right: 4px solid #000;
+}
+
+
+QLineEdit#cell_1_6 {
+    border-left: 4px solid #000;
+}   
+
+QLineEdit#cell_1_8 {
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_2_0 {
+    border-left: 4px solid #000;
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_2_1 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_2_2 {
+    border-bottom: 4px solid #000;
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_2_3 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_2_4 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_2_5 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_2_6 {
+    border-left: 4px solid #000;
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_2_7 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_2_8 {
+    border-bottom: 4px solid #000;
+    border-right: 4px solid #000;
+}
+
+
+QLineEdit#cell_3_0 {
+    border-left: 4px solid #000;
+}
+
+QLineEdit#cell_3_2 {
+    border-right: 4px solid #000;
+}
+
+
+QLineEdit#cell_3_6 {
+    border-left: 4px solid #000;
+}
+
+QLineEdit#cell_3_8 {
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_4_0 {
+    border-left: 4px solid #000;
+}
+
+QLineEdit#cell_4_2 {
+    border-right: 4px solid #000;
+}
+
+
+QLineEdit#cell_4_6 {
+    border-left: 4px solid #000;
+}   
+
+QLineEdit#cell_4_8 {
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_5_0 {
+    border-left: 4px solid #000;
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_5_1 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_5_2 {
+    border-bottom: 4px solid #000;
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_5_3 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_5_4 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_5_5 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_5_6 {
+    border-left: 4px solid #000;
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_5_7 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_5_8 {
+    border-bottom: 4px solid #000;
+    border-right: 4px solid #000;
+}
+
+
+QLineEdit#cell_6_0 {
+    border-left: 4px solid #000;
+}
+
+
+QLineEdit#cell_6_2 {
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_6_6 {
+    border-left: 4px solid #000;
+}
+
+QLineEdit#cell_6_8 {
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_7_0 {
+    border-left: 4px solid #000;
+}
+
+QLineEdit#cell_7_2 {
+    border-right: 4px solid #000;
+}
+
+
+QLineEdit#cell_7_6 {
+    border-left: 4px solid #000;
+}   
+
+QLineEdit#cell_7_8 {
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_8_0 {
+    border-left: 4px solid #000;
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_8_1 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_8_2 {
+    border-bottom: 4px solid #000;
+    border-right: 4px solid #000;
+}
+
+QLineEdit#cell_8_3 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_8_4 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_8_5 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_8_6 {
+    border-left: 4px solid #000;
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_8_7 {
+    border-bottom: 4px solid #000;
+}
+
+QLineEdit#cell_8_8 {
+    border-bottom: 4px solid #000;
+    border-right: 4px solid #000;
+}
+
+
 
 QLineEdit:focus {
-    border: 2px solid #47c;
+    background-color: #ffa7a7a7;
 }
-
-
-

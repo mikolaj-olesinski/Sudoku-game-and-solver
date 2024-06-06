@@ -16,7 +16,9 @@ class Sudoku(QWidget):
         self.setGeometry(100, 100, 700, 700)
 
         grid = QGridLayout()
+        grid.setSpacing(0)
         self.setLayout(grid)
+
 
         self.squares = []
 

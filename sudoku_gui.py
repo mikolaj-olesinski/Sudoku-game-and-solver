@@ -1,9 +1,8 @@
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QLineEdit, QFrame, QVBoxLayout, QLabel, QPushButton, QMessageBox
-from PySide6.QtCore import Qt
-from nwm import NonZeroValidator, UserCell, ComputerCell, BlankCell
+from PySide6.QtWidgets import QApplication, QWidget, QLineEdit, QFrame, QVBoxLayout, QLabel, QPushButton, QMessageBox, QHBoxLayout
+from PySide6.QtCore import Qt, QTimer
+from nwm import NonZeroValidator, UserCell, ComputerCell, BlankCell, Stoper
 from datetime import datetime
-
 from sudoku_square import SudokuSquare
 from sudoku_class import Sudoku as SudokuWidget
 
@@ -13,10 +12,13 @@ class TopWidget(QWidget):
         self.initUI()
 
     def initUI(self):
-        layout = QVBoxLayout()
+        layout = QHBoxLayout()
         self.setLayout(layout)
-        layout.addWidget(QLabel("Top Section"))
-        # Dodaj tutaj inne widgety według potrzeb
+        layout.addWidget(QLabel("Cofniecie"))
+        layout.addWidget(QLabel("Score"))
+        layout.addWidget(Stoper())
+
+
 
 
 class BottomWidget(QWidget):
@@ -25,22 +27,10 @@ class BottomWidget(QWidget):
         self.initUI()
 
     def initUI(self):
-        layout = QVBoxLayout()
+        layout = QHBoxLayout()
         self.setLayout(layout)
-        layout.addWidget(QLabel("Bottom Section"))
-        self.popup_button = QPushButton('Show Popup')
-        self.popup_button.clicked.connect(self.show_popup)
-        layout.addWidget(self.popup_button)
-        # Dodaj tutaj inne widgety według potrzeb
-
-    def show_popup(self):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Information)
-        msg.setText("This is a popup message.")
-        msg.setInformativeText("Additional information can go here.")
-        msg.setWindowTitle("Popup")
-        msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        retval = msg.exec()
+        layout.addWidget(QPushButton("Zapisz"))
+        layout.addWidget(QPushButton("Podpowiedz"))
 
 
 class SudokuGUI(QWidget):
