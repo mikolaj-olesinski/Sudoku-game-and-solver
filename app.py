@@ -1,33 +1,8 @@
-from sudoku_class import Sudoku 
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QGridLayout, QLineEdit, QFrame
-from PySide6.QtGui import QIntValidator
-from PySide6.QtCore import Qt
-from nwm import get_board_from_db, get_board_from_file, UserCell, ComputerCell, BlankCell, NonZeroValidator
-from sudoku_gui import SudokuGUI
-
-
-def display_cell_text(cell):
-    print(cell)
-
-
-def validate_cell_changed_text(cell, sudoku):
-    cell_row = int(cell.objectName().split('_')[1])
-    cell_col = int(cell.objectName().split('_')[2])
-
-    square_row = cell_row // 3
-    square_col = cell_col // 3
-
-    square = sudoku.squares[f'square_{square_row}_{square_col}']
-    if not square.validate_square(cell_row, cell_col) or not sudoku.validate_column(cell_col) or not sudoku.validate_row(cell_row):
-        cell.setStyleSheet('color: #b56')
-        return False
-    else:
-        if not isinstance(cell, ComputerCell):
-
-            cell.setStyleSheet('color: #458;')
-
-        return True
+from PySide6.QtWidgets import QApplication
+from model.utils.func import get_board_from_db, get_board_from_file
+from view.sudoku_gui import SudokuGUI
+from controller.sudoku_control import validate_cell_changed_text
 
     
 if __name__ == '__main__':
@@ -38,7 +13,8 @@ if __name__ == '__main__':
 
     sudoku = main_window.sudoku
     sudoku.update_board(get_board_from_db(1))
-    app.setStyleSheet(open('style.qss').read())
+    #sudoku.update_board(get_board_from_file('constants/sudoku.txt'))
+    app.setStyleSheet(open('view/style.qss').read())
 
 
     cells = sudoku.cells
@@ -48,36 +24,6 @@ if __name__ == '__main__':
     main_window.show()
 
     sys.exit(app.exec())
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # app = QApplication(sys.argv)
-    # app.setStyle('Fusion')
-    # sudoku = Sudoku()
-    # sudoku.update_board(get_board_from_db(1))
-    # sudoku.setStyleSheet(open('style.qss').read())
-    # window = sudoku
-    # window.show()
-
-
-
-    # cells = sudoku.cells
-    # for cell in cells:
-    #     #cells[cell].returnPressed.connect(lambda cell=cell: display_cell_text(cells[cell]))
-    #     cells[cell].editingFinished.connect(lambda cell=cell: validate_cell_changed_text(cells[cell]))
-
-
-    # sys.exit(app.exec())
 
 
 

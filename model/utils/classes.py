@@ -1,11 +1,8 @@
 from PySide6.QtGui import QValidator
 from PySide6.QtWidgets import QLineEdit
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from datetime import datetime
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QMessageBox, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from PySide6.QtCore import QTimer, Qt
-from dataBase.models import Sudoku
+
 
 class NonZeroValidator(QValidator):
     def validate(self, input_str, pos):
@@ -20,7 +17,6 @@ class NonZeroValidator(QValidator):
         except ValueError:
             return (QValidator.Invalid, input_str, pos)
         
-
 class UserCell(QLineEdit):
     def __init__(self):
         super().__init__()
@@ -59,46 +55,6 @@ class BlankCell(QLineEdit):
         self.setValidator(other.validator())
         self.setMaxLength(other.maxLength())
 
-
-
-
-def get_board_from_file(filename):
-    with open(filename, 'r') as file:
-        content = file.read().replace('\n', '').split(',')
-
-    board = {}
-    for i in range(9):
-        for j in range(9):
-            board[f'cell_{i}_{j}'] = content[i * 9 + j]
-
-    return board
-
-def get_board_from_db(sudoku_id):
-    db_name = 'sudoku_database'
-    engine = create_engine(f'sqlite:///dataBase/{db_name}.sqlite3')
-
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    sudoku = session.query(Sudoku).filter(Sudoku.id == sudoku_id).first()
-    data = sudoku.data.split(',')
-    board = {}
-    for i in range(9):
-        for j in range(9):
-            board[f'cell_{i}_{j}'] = data[i * 9 + j]
-
-    session.close()
-    return board
-
-def get_data_from_sudoku(sudoku):
-    cells = sudoku.cells
-    string = ''
-
-    for i in range(9):
-        for j in range(9):
-            string += f'{cells[i][j].text()},'
-    
-
 class Stoper(QWidget):
     def __init__(self):
         super().__init__()
@@ -127,4 +83,3 @@ class Stoper(QWidget):
         hours, remainder = divmod(self.elapsed_time, 3600)
         minutes, seconds = divmod(remainder, 60)
         self.time_label.setText(f"{hours:02}:{minutes:02}:{seconds:02}")
-

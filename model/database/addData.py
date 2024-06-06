@@ -1,24 +1,24 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from models import Sudoku, User, UsersSudoku, Base
+from models import Sudoku_model, User_model, UsersSudoku_model
 
 
 
 def addSudoku(data, created_at):
-    sudoku = Sudoku(data=data, created_at=created_at)
+    sudoku = Sudoku_model(data=data, created_at=created_at)
     session.add(sudoku)
     session.commit()
 
 def addUser(name, created_at):
-    user = User(name=name, created_at=created_at)
+    user = User_model(name=name, created_at=created_at)
     session.add(user)
     session.commit()
 
 def addUsersSudoku(sudoku_name, user_name, started_at, finished_at=None, time=None, cuurent_sudoku_state=None):
-    sudoku = session.query(Sudoku).filter(Sudoku.name == sudoku_name).first()
-    user = session.query(User).filter(User.name == user_name).first()
-    users_sudoku = UsersSudoku(user_id=user.id, sudoku_id=sudoku.id, started_at=started_at, finished_at=finished_at, time=time, cuurent_sudoku_state=cuurent_sudoku_state)
+    sudoku = session.query(Sudoku_model).filter(Sudoku_model.name == sudoku_name).first()
+    user = session.query(User_model).filter(User_model.name == user_name).first()
+    users_sudoku = UsersSudoku_model(user_id=user.id, sudoku_id=sudoku.id, started_at=started_at, finished_at=finished_at, time=time, cuurent_sudoku_state=cuurent_sudoku_state)
     session.add(users_sudoku)
     session.commit()
 

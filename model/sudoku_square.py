@@ -1,7 +1,6 @@
-import sys
-from PySide6.QtWidgets import QApplication, QWidget, QGridLayout, QLineEdit, QFrame
+from PySide6.QtWidgets import QWidget, QGridLayout, QLineEdit
 from PySide6.QtCore import Qt
-from nwm import NonZeroValidator
+from model.utils.classes import NonZeroValidator
 
 class SudokuSquare(QWidget):
     def __init__(self):
@@ -43,7 +42,3 @@ class SudokuSquare(QWidget):
             return False
         return True
     
-    def print_objects_on_square(self):
-        for i, row in enumerate(self.cells):
-            for j, cell in enumerate(row):
-                print(cell)

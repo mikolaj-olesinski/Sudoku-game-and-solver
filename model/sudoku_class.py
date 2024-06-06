@@ -1,8 +1,6 @@
-import sys
-from PySide6.QtWidgets import QApplication, QWidget, QGridLayout, QLineEdit, QFrame
-from PySide6.QtCore import Qt
-from nwm import NonZeroValidator, UserCell, ComputerCell, BlankCell
-from sudoku_square import SudokuSquare
+from PySide6.QtWidgets import QWidget, QGridLayout
+from model.utils.classes import UserCell, ComputerCell, BlankCell
+from model.sudoku_square import SudokuSquare
 
 class Sudoku(QWidget):
     def __init__(self):
@@ -10,7 +8,6 @@ class Sudoku(QWidget):
 
         self.initUI()
         self.cells, self.squares = self.initializeCellsAndSquares()
-
 
     def initUI(self):
         self.setGeometry(100, 100, 700, 700)
@@ -29,8 +26,6 @@ class Sudoku(QWidget):
                 grid.addWidget(square, row, col)
                 row_squares.append(square)
             self.squares.append(row_squares)
-
-
 
     def initializeCellsAndSquares(self):
         cells = {}
@@ -71,10 +66,8 @@ class Sudoku(QWidget):
             return False
         return True
     
-
     def update_board(self, board):
         for cell_name, value in board.items():
-            old_cell = self.cells[cell_name]
             
             if value != '0':
                 if value[0] == 'C':
@@ -92,8 +85,6 @@ class Sudoku(QWidget):
                 self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                 cell.setText('')
 
-
-
     def switch_cell(self, new_cell, x_row, y_column):
         old_cell = self.cells[f'cell_{x_row}_{y_column}']
         self.cells[f'cell_{x_row}_{y_column}'] = new_cell
@@ -106,10 +97,3 @@ class Sudoku(QWidget):
 
         old_cell.deleteLater()
  
-
-            
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    sudoku = Sudoku()
-    sudoku.show()
-    sys.exit(app.exec_())
