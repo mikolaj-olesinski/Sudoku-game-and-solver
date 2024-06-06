@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from models import Base
 
 def create_database(db_name):
-    engine = create_engine(f'sqlite:///{db_name}.sqlite3')
+    engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
     Base.metadata.create_all(engine)
 
 if __name__ == '__main__':

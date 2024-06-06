@@ -1,12 +1,21 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from models import Sudoku_model, User_model, UsersSudoku_model
+from model.utils.func import solve_sudoku, databaseData_to_grid, flatten_to_string
 
 
 
 def addSudoku(data, created_at):
     sudoku = Sudoku_model(data=data, created_at=created_at)
+    grid = databaseData_to_grid(data)
+    solve_sudoku(grid)
+    grid = flatten_to_string(grid)
+    
+    sudoku.solved = grid
     session.add(sudoku)
     session.commit()
 
@@ -24,7 +33,7 @@ def addUsersSudoku(sudoku_name, user_name, started_at, finished_at=None, time=No
 
 if __name__ == '__main__':
     db_name = 'sudoku_database'
-    engine = create_engine(f'sqlite:///{db_name}.sqlite3')
+    engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
 
     Session = sessionmaker(bind=engine)
     session = Session()

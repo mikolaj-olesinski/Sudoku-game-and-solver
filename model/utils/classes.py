@@ -17,9 +17,11 @@ class NonZeroValidator(QValidator):
         except ValueError:
             return (QValidator.Invalid, input_str, pos)
         
-class UserCell(QLineEdit):
+class SolvedCell(QLineEdit):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet('color: #4e7;')
+        self.setReadOnly(True)
 
     def copy_properties(self, other):
         self.setObjectName(other.objectName())

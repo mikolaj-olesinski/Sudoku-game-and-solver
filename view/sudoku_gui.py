@@ -23,8 +23,15 @@ class BottomWidget(QWidget):
     def initUI(self):
         layout = QHBoxLayout()
         self.setLayout(layout)
-        layout.addWidget(QPushButton("Zapisz"))
-        layout.addWidget(QPushButton("Podpowiedz"))
+        
+        save_button = QPushButton("Zapisz")
+        save_button.setObjectName("save_button")
+
+        hint_button = QPushButton("Podpowiedz")
+        hint_button.setObjectName("hint_button")
+
+        layout.addWidget(save_button)
+        layout.addWidget(hint_button)
 
 
 class SudokuGUI(QWidget):

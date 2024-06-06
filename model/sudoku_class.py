@@ -1,13 +1,16 @@
 from PySide6.QtWidgets import QWidget, QGridLayout
-from model.utils.classes import UserCell, ComputerCell, BlankCell
+from model.utils.classes import BlankCell, ComputerCell, SolvedCell
 from model.sudoku_square import SudokuSquare
 
 class Sudoku(QWidget):
+
+
     def __init__(self):
         super().__init__()
 
         self.initUI()
         self.cells, self.squares = self.initializeCellsAndSquares()
+        self.id = None
 
     def initUI(self):
         self.setGeometry(100, 100, 700, 700)
@@ -66,7 +69,9 @@ class Sudoku(QWidget):
             return False
         return True
     
-    def update_board(self, board):
+    def update_board(self, board, sudoku_id = None):
+        self.id = sudoku_id
+
         for cell_name, value in board.items():
             
             if value != '0':
@@ -74,10 +79,14 @@ class Sudoku(QWidget):
                     cell = ComputerCell()
                     self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                     cell.setText(value[1])
-                elif value[0] == 'U':
-                    cell = UserCell()
+                elif value in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                    cell = BlankCell()
                     self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
-                    cell.setText(value[1])
+                    cell.setText(value)
+                elif value[0] == 'S':
+                    cell = SolvedCell()
+                    self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
+                    cell.setText('')
 
             
             else:

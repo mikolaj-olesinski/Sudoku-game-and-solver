@@ -9,6 +9,7 @@ class Sudoku_model(Base):
     data = Column(String)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
+    solved = Column(String)
 
 
 class User_model(Base):
