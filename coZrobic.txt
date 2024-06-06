@@ -3,6 +3,7 @@ Niezrobione:
     - lepszy wyglad sudoku_gui
     - logowanie
     - wyswietlanie wyboru sudoku
+    - sprawdzanie poprawnosci uzytkownika nazwy
 
 
 

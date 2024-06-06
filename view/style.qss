@@ -253,7 +253,12 @@ QLineEdit#cell_8_8 {
 }
 
 
-
 QLineEdit:focus {
     background-color: #ffa7a7a7;
+}
+
+QLineEdit#username_input {
+    font-size: 20px;
+    border: 1px solid #000;
+    background-color: #2affffff;
 }
