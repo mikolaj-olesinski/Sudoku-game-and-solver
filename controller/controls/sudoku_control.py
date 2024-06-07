@@ -1,9 +1,9 @@
 from model.utils.classes import ComputerCell, SolvedCell
-from model.utils.func import get_hint_for_sudoku, databaseData_to_grid, get_data_from_sudoku
+from model.utils.func import get_hint_for_sudoku, databaseData_to_grid, get_data_from_sudoku, get_saved_data_from_sudoku
 from model.sudoku_class import Sudoku
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database.models import Sudoku_model
+from database.models import Sudoku_model, UsersSudoku_model
 
 def validate_cell_changed_text(cell, sudoku):
     cell_row = int(cell.objectName().split('_')[1])
@@ -43,5 +43,18 @@ def hint_for_sudoku(sudoku, row = None, col = None):
     sudoku.switch_cell(cell, row, col)
     cell.setText(str(value))
     cell.setFocus()
-    
 
+def save_sudoku(sudoku, user_id = 1):
+    db_name = 'sudoku_database'
+    engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
+
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    saved_data = get_saved_data_from_sudoku(sudoku)
+
+    users_sudoku_model = session.query(UsersSudoku_model).filter(UsersSudoku_model.sudoku_id == sudoku.id and UsersSudoku_model.user_id == user_id).first()
+
+    users_sudoku_model.current_sudoku_state = saved_data
+    session.commit()
+    print(saved_data)

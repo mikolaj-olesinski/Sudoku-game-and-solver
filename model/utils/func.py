@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.models import UsersSudoku_model
+from model.utils.classes import BlankCell, ComputerCell, SolvedCell
 import random, re
 
 def get_board_from_file(filename):
@@ -14,7 +15,7 @@ def get_board_from_file(filename):
 
     return board
 
-def get_board_from_db(sudoku_id, user_id = 1):
+def get_board_from_db(sudoku_id = 1, user_id = 1):
     db_name = 'sudoku_database'
     engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
 
@@ -41,7 +42,38 @@ def get_data_from_sudoku(sudoku):
                 string += f'{cells[f"cell_{i}_{j}"].text()},'
             else:
                 string += '0,'
-    return string
+    return string[:-1]
+
+def get_saved_data_from_sudoku(sudoku):
+    cells = sudoku.cells
+    string = ''
+
+    for i in range(9):
+        for j in range(9):
+            cell = cells[f"cell_{i}_{j}"]
+            if cell.text():
+                if isinstance(cell, ComputerCell):
+                    string += f'C{cells[f"cell_{i}_{j}"].text()},'
+                elif isinstance(cell, SolvedCell):
+                    string += f'S{cells[f"cell_{i}_{j}"].text()},'
+                else:
+                    string += f'{cells[f"cell_{i}_{j}"].text()},'
+
+            else:
+                string += '0,'
+    return string[:-1]
+
+
+def sudoku_data_to_saved_sudoku_data(data):
+    list_data = data.split(',')
+    new_data = ''
+    for i in list_data:
+        if i != '0':
+            i = f'C{i}'
+        else:
+            i = '0'
+        new_data += i + ','
+    return new_data[:-1]        
     
 def isValid(grid, r, c, k):
     for i in range(9):
@@ -127,19 +159,6 @@ def databaseData_to_grid(string):
         grid.append(row)
     return grid
 
-def sudoku_data_to_users_sudoku_data(data):
-    list_data = data.split(',')
-    new_data = ''
-    for i in list_data:
-        if i != '0':
-            i = f'C{i}'
-        else:
-            i = '0'
-        new_data += i + ','
-    return new_data[:-1]
-        
-
-
 def check_username(username):
     if len(username) > 15 or len(username) < 3:
         print('Username must be between 3 and 15 characters')
@@ -152,3 +171,10 @@ def check_username(username):
     print('Username is valid')
     return True
 
+def get_sudoku_string_from_file(filename):
+
+    with open(filename, 'r') as file:
+        content = file.read().replace('\n', '').split(',')
+
+    string = ",".join(content)
+    return string

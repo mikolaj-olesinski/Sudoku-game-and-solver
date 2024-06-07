@@ -1,11 +1,17 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from models import Sudoku_model, User_model, UsersSudoku_model
-from model.utils.func import solve_sudoku, databaseData_to_grid, flatten_to_string, find_difficulty, sudoku_data_to_users_sudoku_data
+from database.models import Sudoku_model, User_model, UsersSudoku_model
+from model.utils.func import solve_sudoku, databaseData_to_grid, flatten_to_string, find_difficulty, sudoku_data_to_saved_sudoku_data
+
+
+db_name = 'sudoku_database'
+engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
+
+Session = sessionmaker(bind=engine)
+session = Session()
 
 
 def addSudoku(data):
@@ -21,38 +27,51 @@ def addSudoku(data):
     session.add(sudoku)
     session.commit()
 
+    addSudokuToAllUsers(sudoku.id)
+    session.commit()
+
 def addUser(name):
     user = User_model(name=name, created_at=datetime.now())
+
     session.add(user)
     session.commit()
 
-def addUsersSudoku(user_id, sudoku_id, started_at, last_saved, time, is_solved):
-    sudoku = session.query(Sudoku_model).filter(Sudoku_model.id == sudoku_id).first()
-    user = session.query(User_model).filter(User_model.id == user_id).first()
-    users_sudoku = UsersSudoku_model(user_id=user.id, sudoku_id=sudoku.id, started_at=started_at, last_saved=last_saved, time=time, is_solved=is_solved)
-    users_sudoku.current_sudoku_state = sudoku_data_to_users_sudoku_data(sudoku.data)
-    session.add(users_sudoku)
+    addToUserAllSudokus(user.id)
     session.commit()
 
-if __name__ == '__main__':
-    db_name = 'sudoku_database'
-    engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
+def addUsersSudoku(user_id, sudoku_id, started_at, last_saved, time, is_solved):
+    sudoku_model = session.query(Sudoku_model).filter(Sudoku_model.id == sudoku_id).first()
+    user_model = session.query(User_model).filter(User_model.id == user_id).first()
+    users_sudoku = UsersSudoku_model(user_id=user_model.id, sudoku_id=sudoku_model.id, started_at=started_at, last_saved=last_saved, time=time, is_solved=is_solved)
+    users_sudoku.current_sudoku_state = sudoku_data_to_saved_sudoku_data(sudoku_model.data)
 
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    session.add(users_sudoku)
+    addSudokuToAllUsers(sudoku_model)
+    session.commit()
 
-    sudoku_data = "0,7,0,5,8,3,0,2,0," \
-                "0,5,9,2,0,0,3,0,0," \
-                "3,4,0,0,0,6,5,0,7," \
-                "0,0,3,6,9,7,1,0,0," \
-                "7,9,5,0,0,0,6,3,2," \
-                "6,8,0,0,0,2,7,0,0," \
-                "9,1,4,8,3,5,0,7,6," \
-                "0,3,0,7,0,1,4,9,5," \
-                "5,6,7,4,2,9,0,1,3"
+def addSudokuToAllUsers(sudoku_id):
+    users = session.query(User_model).all()
+    sudoku_model = session.query(Sudoku_model).filter(Sudoku_model.id == sudoku_id).first()
+    if users:
+        for user in users:
+            users_sudoku = UsersSudoku_model(user_id=user.id, sudoku_id=sudoku_model.id, started_at=datetime.now(), last_saved=datetime.now(), time=0, is_solved=False)
+            users_sudoku.current_sudoku_state = sudoku_data_to_saved_sudoku_data(sudoku_model.data)
 
-    addSudoku(data=sudoku_data)
+            session.add(users_sudoku)
+            session.commit()
+    else:
+        print("No users in database")
 
-    addUser(name='test')
+def addToUserAllSudokus(user_id):
+    sudokus = session.query(Sudoku_model).all()
+    user_model = session.query(User_model).filter(User_model.id == user_id).first()
+    if sudokus:
+        for sudoku in sudokus:
+            users_sudoku = UsersSudoku_model(user_id=user_model.id, sudoku_id=sudoku.id, started_at=datetime.now(), last_saved=datetime.now(), time=0, is_solved=False)
+            users_sudoku.current_sudoku_state = sudoku_data_to_saved_sudoku_data(sudoku.data)
+            session.add(users_sudoku)
+            session.commit()
+    else:
+        print("No sudokus in database")
 
-    addUsersSudoku(user_id=1, sudoku_id=1, started_at=datetime.now(), last_saved=datetime.now(), time=0, is_solved=False)
+
