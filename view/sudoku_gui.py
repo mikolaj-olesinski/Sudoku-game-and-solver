@@ -11,7 +11,6 @@ class TopWidget(QWidget):
         layout = QHBoxLayout()
         self.setLayout(layout)
         layout.addWidget(QLabel("Cofniecie"))
-        layout.addWidget(QLabel("Score"))
         layout.addWidget(Stoper())
 
 

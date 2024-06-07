@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database.models import Sudoku_model
-import random
+from database.models import UsersSudoku_model
+import random, re
 
 def get_board_from_file(filename):
     with open(filename, 'r') as file:
@@ -14,15 +14,15 @@ def get_board_from_file(filename):
 
     return board
 
-def get_board_from_db(sudoku_id):
+def get_board_from_db(sudoku_id, user_id = 1):
     db_name = 'sudoku_database'
     engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
 
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    sudoku = session.query(Sudoku_model).filter(Sudoku_model.id == sudoku_id).first()
-    data = sudoku.data.split(',')
+    sudoku = session.query(UsersSudoku_model).filter(UsersSudoku_model.sudoku_id == sudoku_id and UsersSudoku_model.user_id == user_id).first()
+    data = sudoku.current_sudoku_state.split(',')
     board = {}
     for i in range(9):
         for j in range(9):
@@ -44,17 +44,14 @@ def get_data_from_sudoku(sudoku):
     return string
     
 def isValid(grid, r, c, k):
-    # Sprawdzenie wiersza
     for i in range(9):
         if grid[r][i] == k:
             return False
     
-    # Sprawdzenie kolumny
     for i in range(9):
         if grid[i][c] == k:
             return False
     
-    # Sprawdzenie 3x3 kwadratu
     startRow, startCol = 3 * (r // 3), 3 * (c // 3)
     for i in range(3):
         for j in range(3):
@@ -77,12 +74,12 @@ def solve_sudoku(grid, r=0, c=0, steps=None):
         for k in range(1, 10):
             if isValid(grid, r, c, k):
                 grid[r][c] = k
-                steps['basic'] += 1  # Count basic step
+                steps['basic'] += 1 
                 solved, steps = solve_sudoku(grid, r, c + 1, steps)
                 if solved:
                     return True, steps
                 grid[r][c] = 0
-        steps['advanced'] += 1  # Count backtracking as an advanced step
+        steps['advanced'] += 1
         return False, steps
 
 def rate_difficulty(steps):
@@ -129,4 +126,29 @@ def databaseData_to_grid(string):
                 row.append(int(data[i * 9 + j]))
         grid.append(row)
     return grid
+
+def sudoku_data_to_users_sudoku_data(data):
+    list_data = data.split(',')
+    new_data = ''
+    for i in list_data:
+        if i != '0':
+            i = f'C{i}'
+        else:
+            i = '0'
+        new_data += i + ','
+    return new_data[:-1]
+        
+
+
+def check_username(username):
+    if len(username) > 15 or len(username) < 3:
+        print('Username must be between 3 and 15 characters')
+        return False
+
+    if not re.match("^[a-zA-Z0-9]*$", username):
+        print('Username must contain only letters and numbers')
+        return False
+
+    print('Username is valid')
+    return True
 

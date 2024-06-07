@@ -4,6 +4,7 @@ from database.models import User_model
 from PySide6.QtWidgets import QMessageBox
 from datetime import datetime
 from controller.apps.sudoku_app import sudoku_app
+from model.utils.func import check_username
 
 def login_user(login_window):
     db_name = 'sudoku_database'
@@ -14,16 +15,22 @@ def login_user(login_window):
 
     username = login_window.username_input.text()
 
-    if session.query(User_model).filter_by(name=username).first():
-        QMessageBox.information(login_window, "Informacja", f"Zalogowano jako {username}")
+    if not check_username(username):
+        QMessageBox.warning(login_window, "Błąd", "Nazwa użytkownika zawiera niedozwolone znaki lub nieodpowiednią długość. Spróbuj ponownie.")
+        login_window.username_input.clear()
     else:
-        new_user = User_model(name=username, created_at=datetime.now())
-        session.add(new_user)
-        session.commit()
-        QMessageBox.information(login_window, "Informacja", f"Utworzono użytkownika {username}")
+        if session.query(User_model).filter_by(name=username).first():
+            pass
+        else:
+            new_user = User_model(name=username, created_at=datetime.now())
+            session.add(new_user)
+            session.commit()
+            QMessageBox.information(login_window, "Informacja", f"Utworzono użytkownika {username}")
 
-    session.close()
-    login_window.cams = sudoku_app()
-    login_window.cams.show()
-    login_window.close()
+        session.close()
+        login_window.cams = sudoku_app()
+        login_window.cams.show()
+        login_window.cams.setWindowTitle(f"Użytkownik: {username}")
+        login_window.close()
+
 

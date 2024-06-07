@@ -8,3 +8,4 @@ class login_app(LoginWindow):
         self.cams = None
         self.show()
         self.login_button.clicked.connect(lambda: login_user(self))
+        self.username_input.returnPressed.connect(lambda: login_user(self))

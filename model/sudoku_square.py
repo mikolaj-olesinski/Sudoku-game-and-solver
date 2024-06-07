@@ -22,7 +22,7 @@ class SudokuSquare(QWidget):
             for col in range(3):
                 cell = QLineEdit()
                 cell.setAlignment(Qt.AlignCenter)
-                cell.setFixedSize(80, 80)  # Ustawienie stałego rozmiaru komórki
+                cell.setFixedSize(80, 80)
                 cell.setValidator(NonZeroValidator())
                 cell.setMaxLength(1)
                 layout.addWidget(cell, row, col)

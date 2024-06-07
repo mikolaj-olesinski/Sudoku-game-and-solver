@@ -1,7 +1,5 @@
 Niezrobione:
-    - score
     - lepszy wyglad sudoku_gui
-    - logowanie
     - wyswietlanie wyboru sudoku
     - sprawdzanie poprawnosci uzytkownika nazwy
 
@@ -9,3 +7,6 @@ Niezrobione:
 
 
 Zrobione:
+
+- sprawdzanie poprawnosci uzytkownika nazwy
+- logowanie
