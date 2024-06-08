@@ -6,10 +6,11 @@ from model.utils.classes import BlankCell
 
 class sudoku_app(SudokuGUI):
 
-    def __init__(self):
+    def __init__(self, user_id, sudoku_id=2):
         super().__init__()
         sudoku = self.sudoku
-        sudoku.update_board(get_board_from_db(1)[0], get_board_from_db(1)[1])
+        sudoku.user_id = user_id        
+        sudoku.update_board(get_board_from_db(sudoku_id, user_id), sudoku_id)
         cells = sudoku.cells
         for cell_name, cell in cells.items():
             row, col = int(cell_name.split('_')[1]), int(cell_name.split('_')[2])

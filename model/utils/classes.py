@@ -47,7 +47,7 @@ class ComputerCell(QLineEdit):
 class BlankCell(QLineEdit):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet('color: #458;')
+        self.setStyleSheet('color: blue;')
         #self.setCursor(Qt.ArrowCursor)
 
     def copy_properties(self, other):

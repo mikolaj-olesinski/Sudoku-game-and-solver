@@ -11,6 +11,7 @@ class Sudoku(QWidget):
         self.initUI()
         self.cells, self.squares = self.initializeCellsAndSquares()
         self.id = None
+        self.user_id = None
 
     def initUI(self):
         self.setGeometry(100, 100, 700, 700)
@@ -86,7 +87,7 @@ class Sudoku(QWidget):
                 elif value[0] == 'S':
                     cell = SolvedCell()
                     self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
-                    cell.setText('')
+                    cell.setText(value[1])
 
             
             else:

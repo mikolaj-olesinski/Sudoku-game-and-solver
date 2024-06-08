@@ -1,8 +1,8 @@
 Niezrobione:
     - lepszy wyglad sudoku_gui
     - wyswietlanie wyboru sudoku
-    - sprawdzanie poprawnosci uzytkownika nazwy
-
+    - rozlozyc niektore funkcje na wiecej funkcji
+    - zrobic constatns 
 
 
 
@@ -10,3 +10,4 @@ Zrobione:
 
 - sprawdzanie poprawnosci uzytkownika nazwy
 - logowanie
+- sprawdzanie poprawnosci uzytkownika nazwy

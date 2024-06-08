@@ -15,22 +15,25 @@ def get_board_from_file(filename):
 
     return board
 
-def get_board_from_db(sudoku_id = 1, user_id = 1):
+def get_board_from_db(sudoku_id, user_id):
+
     db_name = 'sudoku_database'
     engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
 
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    sudoku = session.query(UsersSudoku_model).filter(UsersSudoku_model.sudoku_id == sudoku_id and UsersSudoku_model.user_id == user_id).first()
+    sudoku = session.query(UsersSudoku_model).filter(UsersSudoku_model.sudoku_id == sudoku_id, UsersSudoku_model.user_id == user_id).first()
     data = sudoku.current_sudoku_state.split(',')
+    print(sudoku_id, user_id)
+    print(data)
     board = {}
     for i in range(9):
         for j in range(9):
             board[f'cell_{i}_{j}'] = data[i * 9 + j]
 
     session.close()
-    return board, sudoku_id
+    return board
 
 def get_data_from_sudoku(sudoku):
     cells = sudoku.cells

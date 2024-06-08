@@ -55,7 +55,7 @@ if __name__ == "__main__":
     app = QApplication([])
 
     sudoku_picker = SudokuPicker()
-    sudoku_picker.import_data_from_db('test')
+    sudoku_picker.import_data_from_db('admin')
     sudoku_picker.show()
 
     app.exec()

@@ -18,7 +18,7 @@ def validate_cell_changed_text(cell, sudoku):
         return False
     else:
         if not isinstance(cell, ComputerCell):
-            cell.setStyleSheet('color: #458;')
+            cell.setStyleSheet('color: blue;')
         return True
 
 def hint_for_sudoku(sudoku, row = None, col = None):
@@ -44,7 +44,8 @@ def hint_for_sudoku(sudoku, row = None, col = None):
     cell.setText(str(value))
     cell.setFocus()
 
-def save_sudoku(sudoku, user_id = 1):
+def save_sudoku(sudoku):
+    user_id = sudoku.user_id
     db_name = 'sudoku_database'
     engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
 

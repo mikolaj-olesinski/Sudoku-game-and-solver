@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.models import User_model
+from database.addData import addUser
 from PySide6.QtWidgets import QMessageBox
 from datetime import datetime
 from controller.apps.sudoku_app import sudoku_app
@@ -22,13 +23,14 @@ def login_user(login_window):
         if session.query(User_model).filter_by(name=username).first():
             pass
         else:
-            new_user = User_model(name=username, created_at=datetime.now())
-            session.add(new_user)
-            session.commit()
-            QMessageBox.information(login_window, "Informacja", f"Utworzono użytkownika {username}")
+            QMessageBox.information(login_window, "Informacja", f"Utworzono nowego użytkownika: {username}.")
+            addUser(username)
+
+        user_id = session.query(User_model).filter_by(name=username).first().id
 
         session.close()
-        login_window.cams = sudoku_app()
+        print(f"User {username}, {user_id} logged in")
+        login_window.cams = sudoku_app(user_id)
         login_window.cams.show()
         login_window.cams.setWindowTitle(f"Użytkownik: {username}")
         login_window.close()
