@@ -1,7 +1,8 @@
-from PySide6.QtGui import QValidator
+from PySide6.QtGui import QValidator, QPixmap
 from PySide6.QtWidgets import QLineEdit
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from PySide6.QtCore import QTimer, Qt
+
 
 
 class NonZeroValidator(QValidator):
@@ -64,10 +65,22 @@ class Stoper(QWidget):
 
     def initUI(self):
         layout = QHBoxLayout()
+        layout.setSpacing(5) 
+        layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
+        stoper_icon_label = QLabel()
+        stoper_icon = QPixmap(r"constants\resources\stopwatch.png").scaled(24, 24, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        stoper_icon_label.setPixmap(stoper_icon)
+        stoper_icon_label.setAlignment(Qt.AlignRight)
+        stoper_icon_label.setContentsMargins(0, 0, 0, 0)
+
         self.time_label = QLabel("00:00:00", self)
-        self.time_label.setAlignment(Qt.AlignCenter)
+        self.time_label.setObjectName("time_label")
+        self.time_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        self.time_label.setContentsMargins(0, 0, 0, 0)
+
+        layout.addWidget(stoper_icon_label)  
         layout.addWidget(self.time_label)
 
         self.timer = QTimer(self)
@@ -75,10 +88,8 @@ class Stoper(QWidget):
 
         self.elapsed_time = 0
 
-        self.start_timer()  # Automatyczne rozpoczęcie timera po uruchomieniu
-
     def start_timer(self):
-        self.timer.start(1000)  # Aktualizacja co 1 sekunda
+        self.timer.start(1000) 
 
     def update_time(self):
         self.elapsed_time += 1
@@ -88,6 +99,12 @@ class Stoper(QWidget):
 
     def get_time(self):
         return self.time_label.text()
-    
+
     def set_time(self, time):
         self.time_label.setText(time)
+        self.elapsed_time = self._time_to_seconds(time)
+        self.start_timer()
+
+    def _time_to_seconds(self, time_str):
+        hours, minutes, seconds = map(int, time_str.split(':'))
+        return hours * 3600 + minutes * 60 + seconds

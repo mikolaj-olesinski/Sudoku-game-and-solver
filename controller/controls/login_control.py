@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from database.models import User_model
 from database.addData import addUser
 from PySide6.QtWidgets import QMessageBox
-from datetime import datetime
+from view.pick_sudoku_gui import SudokuPicker
 from controller.apps.sudoku_game_app import sudoku_app
 from model.utils.func import check_username
 
@@ -30,7 +30,7 @@ def login_user(login_window):
 
         session.close()
         print(f"User {username}, {user_id} logged in")
-        login_window.cams = sudoku_app(user_id)
+        login_window.cams = SudokuPicker(user_id)
         login_window.cams.show()
         login_window.cams.setWindowTitle(f"Użytkownik: {username}")
         login_window.close()

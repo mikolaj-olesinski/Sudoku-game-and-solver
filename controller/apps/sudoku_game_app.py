@@ -1,17 +1,17 @@
-from PySide6.QtWidgets import QPushButton, QDialog
 from model.utils.func import get_board_from_db
-from view.sudoku_gui import SudokuGUI
+from view.sudoku_game_gui import SudokuGUI, TopWidget
 from controller.controls.sudoku_control import validate_cell_changed_text, hint_for_sudoku, save_sudoku
 from model.utils.classes import BlankCell
 from database.getData import get_timer
 from database.addData import addTimer
 
 class sudoku_app(SudokuGUI):
-    def __init__(self, user_id, sudoku_id=1):
+    def __init__(self, user_id, sudoku_id):
         super().__init__()
         self.sudoku.user_id = user_id
         self.sudoku.update_board(get_board_from_db(sudoku_id, user_id), sudoku_id)
-        
+        self._update_time()
+
         self._connect_cells(self.sudoku.cells)
         self._connect_buttons()
 
@@ -40,6 +40,7 @@ class sudoku_app(SudokuGUI):
     def _handle_save_button(self):
         save_sudoku(self.sudoku)
         self._save_time()
+
         
     def _update_time(self):
         self.top_widget.stoper.set_time(get_timer(self.sudoku.user_id, self.sudoku.id))
@@ -47,4 +48,5 @@ class sudoku_app(SudokuGUI):
     def _save_time(self):
         time = self.top_widget.stoper.get_time()
         addTimer(self.sudoku.user_id, self.sudoku.id, time)
+
 

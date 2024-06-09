@@ -1,9 +1,9 @@
 Niezrobione:
     - lepszy wyglad sudoku_gui
-    - wyswietlanie wyboru sudoku
     - rozlozyc niektore funkcje na wiecej funkcji
     - zrobic constatns 
-
+    - zrobic ze jak zapisuje to zmienia mi kolory tych zlych
+    - sortowanie dla timerow
 
 
 Zrobione:
@@ -11,3 +11,4 @@ Zrobione:
 - sprawdzanie poprawnosci uzytkownika nazwy
 - logowanie
 - sprawdzanie poprawnosci uzytkownika nazwy
+- wyswietlanie wyboru sudoku

@@ -99,7 +99,7 @@ class SudokuPicker(QWidget):
         self.table_view.resizeColumnsToContents()
 
     def _setWindowSize(self):
-        table_width = self.table_view.horizontalHeader().length() + 30  # Add margin
+        table_width = self.table_view.horizontalHeader().length() + 30
         self.resize(table_width, 400)
 
     def open_sudoku(self, sudoku_id):
@@ -108,17 +108,4 @@ class SudokuPicker(QWidget):
         self.cams.setWindowTitle(f"Użytkownik: {self.user_id}")
         self.close()
 
-
-
-
-if __name__ == "__main__":
-    app = QApplication([])
-    app.setStyle('Fusion')
-    app.setStyleSheet(open('view/style.qss').read())
-
-
-    sudoku_picker = SudokuPicker(1)
-    sudoku_picker.show()
-
-    app.exec()
 

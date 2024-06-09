@@ -61,4 +61,4 @@ def save_sudoku(sudoku):
     users_sudoku_model.current_sudoku_state = saved_data
     users_sudoku_model.last_saved = datetime.now()
     session.commit()
-    print(saved_data)
+

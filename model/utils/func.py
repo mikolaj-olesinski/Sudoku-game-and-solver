@@ -25,8 +25,7 @@ def get_board_from_db(sudoku_id, user_id):
 
     sudoku = session.query(UsersSudoku_model).filter(UsersSudoku_model.sudoku_id == sudoku_id, UsersSudoku_model.user_id == user_id).first()
     data = sudoku.current_sudoku_state.split(',')
-    print(sudoku_id, user_id)
-    print(data)
+    
     board = {}
     for i in range(9):
         for j in range(9):

@@ -1,6 +1,8 @@
-from PySide6.QtWidgets import QWidget,QVBoxLayout, QLabel, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout
+from PySide6.QtGui import QPixmap
 from model.utils.classes import Stoper
 from model.sudoku_class import Sudoku as SudokuWidget
+from PySide6.QtCore import Qt
 
 class TopWidget(QWidget):
     def __init__(self):
@@ -9,16 +11,26 @@ class TopWidget(QWidget):
 
     def initUI(self):
         layout = QHBoxLayout()
+        layout.setSpacing(5)
+        layout.setContentsMargins(0, 0, 0, 0) 
         self.setLayout(layout)
 
-        cofniecie = QPushButton("Cofnij")
-        stoper = Stoper()
+        cofniecie_icon = QPixmap(r"constants\resources\back.png").scaled(30, 30, Qt.KeepAspectRatio, Qt.SmoothTransformation)
 
+        cofniecie = QPushButton()
+        cofniecie.setIcon(cofniecie_icon)
+        cofniecie.setIconSize(cofniecie_icon.size())
+
+        cofniecie.setFixedSize(cofniecie_icon.size())
+
+        stoper = Stoper()
+        
         layout.addWidget(cofniecie)
-        layout.addWidget(stoper)
+        layout.addWidget(stoper, alignment=Qt.AlignRight)
 
         self.stoper = stoper
         self.cofniecie = cofniecie
+
 
 class BottomWidget(QWidget):
     def __init__(self):
