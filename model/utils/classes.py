@@ -85,3 +85,9 @@ class Stoper(QWidget):
         hours, remainder = divmod(self.elapsed_time, 3600)
         minutes, seconds = divmod(remainder, 60)
         self.time_label.setText(f"{hours:02}:{minutes:02}:{seconds:02}")
+
+    def get_time(self):
+        return self.time_label.text()
+    
+    def set_time(self, time):
+        self.time_label.setText(time)

@@ -74,4 +74,9 @@ def addToUserAllSudokus(user_id):
     else:
         print("No sudokus in database")
 
+def addTimer(user_id, sudoku_id, time):
+    user_sudoku = session.query(UsersSudoku_model).filter(UsersSudoku_model.user_id == user_id, UsersSudoku_model.sudoku_id == sudoku_id).first()
+    user_sudoku.time = time
+    session.commit()
+
 

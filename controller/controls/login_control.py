@@ -4,7 +4,7 @@ from database.models import User_model
 from database.addData import addUser
 from PySide6.QtWidgets import QMessageBox
 from datetime import datetime
-from controller.apps.sudoku_app import sudoku_app
+from controller.apps.sudoku_game_app import sudoku_app
 from model.utils.func import check_username
 
 def login_user(login_window):

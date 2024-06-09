@@ -10,9 +10,15 @@ class TopWidget(QWidget):
     def initUI(self):
         layout = QHBoxLayout()
         self.setLayout(layout)
-        layout.addWidget(QLabel("Cofniecie"))
-        layout.addWidget(Stoper())
 
+        cofniecie = QPushButton("Cofnij")
+        stoper = Stoper()
+
+        layout.addWidget(cofniecie)
+        layout.addWidget(stoper)
+
+        self.stoper = stoper
+        self.cofniecie = cofniecie
 
 class BottomWidget(QWidget):
     def __init__(self):
@@ -31,6 +37,9 @@ class BottomWidget(QWidget):
 
         layout.addWidget(save_button)
         layout.addWidget(hint_button)
+
+        self.hint_button = hint_button
+        self.save_button = save_button
 
 
 class SudokuGUI(QWidget):
