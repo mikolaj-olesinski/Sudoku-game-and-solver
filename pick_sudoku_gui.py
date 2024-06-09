@@ -1,26 +1,16 @@
-from PySide6.QtWidgets import QApplication, QTableView, QStyledItemDelegate, QWidget, QVBoxLayout, QStyle, QStyleOptionButton
+from PySide6.QtWidgets import QApplication, QTableView, QStyledItemDelegate, QWidget, QVBoxLayout,
 from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex
 from PySide6.QtGui import QMouseEvent
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from datetime import datetime
+from model.utils.func import import_data_from_db
 from PySide6.QtGui import QPixmap
+from controller.apps.sudoku_app import sudoku_app
 import os
 
-# Przykładowe dane
-sample_data = [
-    [1, 'Easy', True, '00:15', datetime.now().strftime("%Y-%m-%d %H:%M:%S"), datetime.now().strftime("%Y-%m-%d %H:%M:%S")],
-    [2, 'Medium', False, '00:30', datetime.now().strftime("%Y-%m-%d %H:%M:%S"), datetime.now().strftime("%Y-%m-%d %H:%M:%S")],
-    [3, 'Hard', True, '01:00', datetime.now().strftime("%Y-%m-%d %H:%M:%S"), datetime.now().strftime("%Y-%m-%d %H:%M:%S")],
-    [4, 'Easy', False, '00:20', datetime.now().strftime("%Y-%m-%d %H:%M:%S"), datetime.now().strftime("%Y-%m-%d %H:%M:%S")],
-    [5, 'Medium', True, '00:40', datetime.now().strftime("%Y-%m-%d %H:%M:%S"), datetime.now().strftime("%Y-%m-%d %H:%M:%S")],
-]
-
-
 class SudokuModel(QAbstractTableModel):
-    def __init__(self, data):
+    def __init__(self, user_id):
         super().__init__()
-        self._data = data
+        self.user_id = user_id
+        self._data = import_data_from_db(user_id)
 
     def rowCount(self, parent=QModelIndex()):
         return len(self._data)
@@ -48,8 +38,9 @@ class SudokuModel(QAbstractTableModel):
 
 
 class ButtonDelegate(QStyledItemDelegate):
-    def __init__(self, parent=None):
+    def __init__(self, sudoku_picker, parent=None):
         super().__init__(parent)
+        self.sudoku_picker = sudoku_picker
 
     def paint(self, painter, option, index):
         if index.column() >= 6:  # Assuming the buttons start from column 6
@@ -71,45 +62,71 @@ class ButtonDelegate(QStyledItemDelegate):
             super().paint(painter, option, index)
 
     def editorEvent(self, event, model, option, index):
-        if index.column() >= 6 and event.type() == QMouseEvent.MouseButtonPress:
-            data = index.data(Qt.DisplayRole)
-            if data:
-                print(f'Button clicked at row {index.row()} and column {index.column()} with data {data}')
-            else:
-                print(f'Button clicked at row {index.row()} and column {index.column()}')
-            return True
+        if index.column() == 6:
+            if event.type() == QMouseEvent.MouseButtonRelease:
+                #sciagnij dane z 1 rzedu
+                dane = model._data[index.row()]
+                dane = dane[0]
+                self.sudoku_picker.open_sudoku(dane)
+
+
         return super().editorEvent(event, model, option, index)
     
     def get_path_for_icon(self, index):
+        base_path = os.path.abspath(os.path.join("constants", "resources"))
         if index.column() == 6:
-            return r"constants\resources\play.png"
+            return os.path.join(base_path, "play.png")
         elif index.column() == 7:
-            return r"constants\resources\edit.png"
+            return os.path.join(base_path, "edit.png")
         elif index.column() == 8:
-            return r"constants\resources\reset.png"
+            return os.path.join(base_path, "reset.png")
         elif index.column() == 9:
-            return r"constants\resources\delete.png"
+            return os.path.join(base_path, "delete.png")
         else:
             return "Button"
 
 class SudokuPicker(QWidget):
-    def __init__(self, data=None):
+    def __init__(self, user_id):
         super().__init__()
         self.layout = QVBoxLayout(self)
         self.table_view = QTableView()
         self.layout.addWidget(self.table_view)
+        self.cams = None
+        self.user_id = user_id
 
-        if data is not None:
-            self.model = SudokuModel(data)
-            self.table_view.setModel(self.model)
-            self.table_view.setSortingEnabled(True)
-            self.table_view.setItemDelegate(ButtonDelegate())
+
+        self.model = SudokuModel(self.user_id)
+        self.table_view.setModel(self.model)
+        self.table_view.setSortingEnabled(True)
+        self.table_view.setItemDelegate(ButtonDelegate(self))
+
+        self.table_view.resizeColumnsToContents()
+
+        # Pobranie szerokości i wysokości tabeli
+        table_width = self.table_view.horizontalHeader().length() + 30  # Dodanie marginesu
+
+
+        # Ustawienie rozmiaru okna aplikacji
+        self.resize(table_width, 400)
+
+    def open_sudoku(self, sudoku_id):
+        self.cams = sudoku_app(self.user_id, sudoku_id)
+        self.cams.show()
+        self.cams.setWindowTitle(f"Użytkownik: {self.user_id}")
+        self.close()
+    
+
+
+
 
 if __name__ == "__main__":
     app = QApplication([])
     app.setStyle('Fusion')
+    app.setStyleSheet(open('view/style.qss').read())
 
-    sudoku_picker = SudokuPicker(sample_data)
+
+    sudoku_picker = SudokuPicker(1)
     sudoku_picker.show()
 
     app.exec()
+

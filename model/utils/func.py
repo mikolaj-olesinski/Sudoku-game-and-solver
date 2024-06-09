@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database.models import UsersSudoku_model
+from database.models import UsersSudoku_model, Sudoku_model, User_model
 from model.utils.classes import BlankCell, ComputerCell, SolvedCell
 import random, re
 
@@ -181,3 +181,20 @@ def get_sudoku_string_from_file(filename):
 
     string = ",".join(content)
     return string
+
+def import_data_from_db(user_id):
+    db_name = 'sudoku_database'
+    engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
+
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    
+    users_sudoku = session.query(UsersSudoku_model).filter(UsersSudoku_model.user_id == user_id).all()
+
+    data = []
+    for user_sudoku in users_sudoku:
+        sudoku = session.query(Sudoku_model).filter(Sudoku_model.id == user_sudoku.sudoku_id).first()
+        data.append([sudoku.id, sudoku.difficulty, user_sudoku.is_solved, user_sudoku.time, str(user_sudoku.started_at)[:19], str(user_sudoku.last_saved)[:19]])
+
+    session.close()
+    return data

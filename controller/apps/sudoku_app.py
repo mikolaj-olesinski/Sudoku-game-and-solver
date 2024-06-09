@@ -6,7 +6,7 @@ from model.utils.classes import BlankCell
 
 class sudoku_app(SudokuGUI):
 
-    def __init__(self, user_id, sudoku_id=2):
+    def __init__(self, user_id, sudoku_id=1):
         super().__init__()
         sudoku = self.sudoku
         sudoku.user_id = user_id        

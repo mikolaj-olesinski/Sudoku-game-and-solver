@@ -4,6 +4,7 @@ from model.sudoku_class import Sudoku
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.models import Sudoku_model, UsersSudoku_model
+from datetime import datetime
 
 def validate_cell_changed_text(cell, sudoku):
     cell_row = int(cell.objectName().split('_')[1])
@@ -57,5 +58,6 @@ def save_sudoku(sudoku):
     users_sudoku_model = session.query(UsersSudoku_model).filter(UsersSudoku_model.sudoku_id == sudoku.id and UsersSudoku_model.user_id == user_id).first()
 
     users_sudoku_model.current_sudoku_state = saved_data
+    users_sudoku_model.last_saved = datetime.now()
     session.commit()
     print(saved_data)
