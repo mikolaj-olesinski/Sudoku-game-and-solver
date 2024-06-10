@@ -27,8 +27,3 @@ class AddSudokuWindow(QMainWindow):
         main_widget.setLayout(layout)
         self.setCentralWidget(main_widget)
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = AddSudokuWindow()
-    window.show()
-    sys.exit(app.exec())

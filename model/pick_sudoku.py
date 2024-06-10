@@ -16,25 +16,36 @@ class SudokuModel(QAbstractTableModel):
         self.sudoku_data = import_data_from_db(user_id)
 
     def rowCount(self, parent=QModelIndex()):
+        if not self.sudoku_data:
+            return 1  # To display the placeholder message
         return len(self.sudoku_data)
 
     def columnCount(self, parent=QModelIndex()):
-        return len(self.sudoku_data[0]) + 4
+        if not self.sudoku_data:
+            return 1  # Only one column for the placeholder message
+        return len(self.sudoku_data[0]) + 3  # Update the column count
 
     def data(self, index, role=Qt.DisplayRole):
+        if not self.sudoku_data:
+            if role == Qt.DisplayRole and index.row() == 0 and index.column() == 0:
+                return "No data available"
+            return None
+
         if role == Qt.DisplayRole:
             if index.column() < 6: 
                 return self.sudoku_data[index.row()][index.column()]
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
         if role == Qt.DisplayRole:
+            if not self.sudoku_data:
+                return ""
             if orientation == Qt.Horizontal:
-                headers = ['id', 'difficulty', 'solved', 'timer', 'started_at', 'last_saved', 'Start', 'Edit', 'Reset', 'Delete']
+                headers = ['id', 'difficulty', 'solved', 'timer', 'started_at', 'last_saved', 'Start', 'Reset', 'Delete']  # Remove the Edit header
                 return headers[section]
 
     def sort(self, column, order):
         self.layoutAboutToBeChanged.emit()
-        if column < 6:
+        if self.sudoku_data and column < 6:
             self.sudoku_data.sort(key=lambda x: x[column], reverse=order == Qt.DescendingOrder)
         self.layoutChanged.emit()
     
@@ -49,26 +60,27 @@ class ButtonDelegate(QStyledItemDelegate):
         self.sudoku_picker = sudoku_picker
 
     def paint(self, painter, option, index):
-        if index.column() >= 6:
+        if self.sudoku_picker.model.sudoku_data and index.column() >= 6:
             self._drawButton(painter, option, index)
         else:
             super().paint(painter, option, index)
 
     def editorEvent(self, event, model, option, index):
+        if not model.sudoku_data:
+            return False  # No interaction if there is no data
+
         if event.type() == QMouseEvent.MouseButtonRelease and index.column() == 6:
             self._handleStartButtonClick(model, index)
         elif event.type() == QMouseEvent.MouseButtonRelease and index.column() == 7:
-            self._handleEditButtonClick(model, index)
-        elif event.type() == QMouseEvent.MouseButtonRelease and index.column() == 8:
             self._handleResetButtonClick(model, index)
-        elif event.type() == QMouseEvent.MouseButtonRelease and index.column() == 9:
+        elif event.type() == QMouseEvent.MouseButtonRelease and index.column() == 8:
             self._handleDeleteButtonClick(model, index)
         return super().editorEvent(event, model, option, index)
 
     def get_path_for_icon(self, index):
         base_path = os.path.abspath(os.path.join("constants", "resources"))
-        icons = ["play.png", "edit.png", "reset.png", "delete.png"]
-        if 6 <= index.column() <= 9:
+        icons = ["play.png", "reset.png", "delete.png"]  # Remove the edit icon
+        if 6 <= index.column() <= 8:
             return os.path.join(base_path, icons[index.column() - 6])
         return "Button"
 
@@ -90,9 +102,6 @@ class ButtonDelegate(QStyledItemDelegate):
         sudoku_id = dane[0]
         self.sudoku_picker.open_sudoku(sudoku_id)
 
-    def _handleEditButtonClick(self, model, index):
-        pass
-
     def _handleResetButtonClick(self, model, index):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Question)
@@ -107,11 +116,8 @@ class ButtonDelegate(QStyledItemDelegate):
         if msg_box.clickedButton() == yes_button:
             dane = model.sudoku_data[index.row()]
             sudoku_id = dane[0]
-            print(sudoku_id)
             resetUsersSudoku(self.sudoku_picker.user_id, sudoku_id)
             self.sudoku_picker.update_data()
-
-
 
     def _handleDeleteButtonClick(self, model, index):
         msg_box = QMessageBox()
@@ -126,8 +132,8 @@ class ButtonDelegate(QStyledItemDelegate):
 
         if msg_box.clickedButton() == yes_button:
             dane = model.sudoku_data[index.row()]
-            sudkou_id = dane[0]
-            deleteUsersSudoku(self.sudoku_picker.user_id, sudkou_id)
+            sudoku_id = dane[0]
+            deleteUsersSudoku(self.sudoku_picker.user_id, sudoku_id)
             self.sudoku_picker.update_data()
 
 
@@ -169,5 +175,3 @@ class SudokuPicker(QWidget):
         self.model.update_data()
         self.table_view.resizeColumnsToContents()
         self._setWindowSize()
-
-
