@@ -8,6 +8,7 @@ from database.deleteData import deleteUsersSudoku
 from database.resetData import resetUsersSudoku
 import os
 
+
 class SudokuModel(QAbstractTableModel):
     def __init__(self, user_id):
         super().__init__()
@@ -140,12 +141,15 @@ class SudokuPicker(QWidget):
         self.layout = QVBoxLayout(self)
         self.table_view = QTableView()
         self.layout.addWidget(self.table_view)
-        self._initializeModelAndView()
+        self._initializeModel()
+        self._initalizeView()
         self._setWindowSize()
 
-    def _initializeModelAndView(self):
+    def _initializeModel(self):
         self.model = SudokuModel(self.user_id)
         self.table_view.setModel(self.model)
+
+    def _initalizeView(self):
         self.table_view.setSortingEnabled(True)
         self.table_view.setItemDelegate(ButtonDelegate(self))
         self.table_view.resizeColumnsToContents()
@@ -153,6 +157,7 @@ class SudokuPicker(QWidget):
     def _setWindowSize(self):
         table_width = self.table_view.horizontalHeader().length() + 30
         self.resize(table_width, 400)
+        self.setContentsMargins(0,0,0,0)
 
     def open_sudoku(self, sudoku_id):
         self.cams = sudoku_app(self.user_id, sudoku_id, self)
@@ -164,8 +169,5 @@ class SudokuPicker(QWidget):
         self.model.update_data()
         self.table_view.resizeColumnsToContents()
         self._setWindowSize()
-
-    
-    
 
 

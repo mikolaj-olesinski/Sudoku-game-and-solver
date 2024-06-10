@@ -1,5 +1,5 @@
 from model.utils.func import get_board_from_db
-from view.sudoku_game_gui import SudokuGUI, TopWidget
+from view.sudoku_game_gui import SudokuGUI
 from controller.controls.sudoku_control import validate_cell_changed_text, hint_for_sudoku, save_sudoku, check_sudoku_for_win
 from model.utils.classes import BlankCell
 from database.getData import get_timer
