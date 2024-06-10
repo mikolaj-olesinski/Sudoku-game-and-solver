@@ -2,6 +2,7 @@ from PySide6.QtGui import QValidator, QPixmap
 from PySide6.QtWidgets import QLineEdit
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from PySide6.QtCore import QTimer, Qt
+import os
 
 
 
@@ -70,7 +71,8 @@ class Stoper(QWidget):
         self.setLayout(layout)
 
         stoper_icon_label = QLabel()
-        stoper_icon = QPixmap(r"constants\resources\stopwatch.png").scaled(24, 24, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        start_incon_path = os.path.abspath(os.path.join("constants", "resources", "stopwatch.png"))
+        stoper_icon = QPixmap(start_incon_path).scaled(24, 24, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         stoper_icon_label.setPixmap(stoper_icon)
         stoper_icon_label.setAlignment(Qt.AlignRight)
         stoper_icon_label.setContentsMargins(0, 0, 0, 0)

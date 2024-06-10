@@ -197,3 +197,37 @@ def import_data_from_db(user_id):
 
     session.close()
     return data
+
+
+def check_win(sudoku):
+    for i in range(9):
+        square_row = i // 3
+        square_column = i % 3
+        square = sudoku.squares[f'square_{square_row}_{square_column}']
+        if square.check_square_for_win() and check_row_for_win(sudoku, i) and check_column_for_win(sudoku, i):
+            print("dziala")
+            return True
+    return False
+
+def check_row_for_win(sudoku, row):
+    numbers = []
+    for i in range(9):
+        cell = sudoku.cells[f'cell_{row}_{i}']
+        if cell.text():
+            numbers.append(cell.text())
+        
+    if len(set(numbers)) == 9:
+        return True
+    return False
+
+def check_column_for_win(sudoku, column):
+    numbers = []
+    for i in range(9):
+        cell = sudoku.cells[f'cell_{i}_{column}']
+        if cell.text():
+            numbers.append(cell.text())
+        
+    if len(set(numbers)) == 9:
+        return True
+    return False
+

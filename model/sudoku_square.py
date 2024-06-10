@@ -42,3 +42,14 @@ class SudokuSquare(QWidget):
             return False
         return True
     
+    def check_square_for_win(self):
+        numbers = []
+        for i in range(3):
+            for j in range(3):
+                cell = self.cells[i][j]
+
+                if cell.text():
+                    numbers.append(cell.text())
+        if len(set(numbers)) == 9:
+            return True
+        return False

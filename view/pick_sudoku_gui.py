@@ -34,6 +34,10 @@ class SudokuModel(QAbstractTableModel):
         if column < 6:
             self.sudoku_data.sort(key=lambda x: x[column], reverse=order == Qt.DescendingOrder)
         self.layoutChanged.emit()
+    
+    def update_data(self):
+        self.sudoku_data = import_data_from_db(self.user_id)
+        self.layoutChanged.emit()
 
 
 class ButtonDelegate(QStyledItemDelegate):
@@ -103,9 +107,15 @@ class SudokuPicker(QWidget):
         self.resize(table_width, 400)
 
     def open_sudoku(self, sudoku_id):
-        self.cams = sudoku_app(self.user_id, sudoku_id)
+        self.cams = sudoku_app(self.user_id, sudoku_id, self)
         self.cams.show()
         self.cams.setWindowTitle(f"Użytkownik: {self.user_id}")
-        self.close()
+        self.hide()
+
+    def update_data(self):
+        self.model.update_data()
+        self.table_view.resizeColumnsToContents()
+        self._setWindowSize()
+    
 
 

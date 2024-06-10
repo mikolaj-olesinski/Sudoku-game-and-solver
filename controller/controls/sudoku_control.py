@@ -1,5 +1,5 @@
 from model.utils.classes import ComputerCell, SolvedCell
-from model.utils.func import get_hint_for_sudoku, databaseData_to_grid, get_data_from_sudoku, get_saved_data_from_sudoku
+from model.utils.func import get_hint_for_sudoku, databaseData_to_grid, get_data_from_sudoku, get_saved_data_from_sudoku, check_win
 from model.sudoku_class import Sudoku
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -61,4 +61,14 @@ def save_sudoku(sudoku):
     users_sudoku_model.current_sudoku_state = saved_data
     users_sudoku_model.last_saved = datetime.now()
     session.commit()
+
+def check_sudoku_for_win(sudoku):
+    
+    if check_win(sudoku):
+
+        print('You win!')
+
+    else:
+        print('You lose!')
+
 

@@ -3,6 +3,7 @@ from PySide6.QtGui import QPixmap
 from model.utils.classes import Stoper
 from model.sudoku_class import Sudoku as SudokuWidget
 from PySide6.QtCore import Qt
+import os
 
 class TopWidget(QWidget):
     def __init__(self):
@@ -15,7 +16,8 @@ class TopWidget(QWidget):
         layout.setContentsMargins(0, 0, 0, 0) 
         self.setLayout(layout)
 
-        cofniecie_icon = QPixmap(r"constants\resources\back.png").scaled(30, 30, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        back_icon_path = os.path.abspath(os.path.join("constants", "resources", "back.png"))
+        cofniecie_icon = QPixmap(back_icon_path).scaled(30, 30, Qt.KeepAspectRatio, Qt.SmoothTransformation)
 
         cofniecie = QPushButton()
         cofniecie.setIcon(cofniecie_icon)
