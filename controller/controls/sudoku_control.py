@@ -65,10 +65,9 @@ def save_sudoku(sudoku):
 def check_sudoku_for_win(sudoku):
     
     if check_win(sudoku):
-
         print('You win!')
+        return True
+    return False
 
-    else:
-        print('You lose!')
 
 

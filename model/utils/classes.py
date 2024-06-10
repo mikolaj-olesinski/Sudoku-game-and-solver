@@ -108,5 +108,11 @@ class Stoper(QWidget):
         self.start_timer()
 
     def _time_to_seconds(self, time_str):
-        hours, minutes, seconds = map(int, time_str.split(':'))
+
+        ##ZMIENIC PTEM
+        if time_str != "00:00:00" and time_str != "0":
+            hours, minutes, seconds = map(int, time_str.split(':'))
+        else:
+            hours, minutes, seconds = 0, 0, 0
+
         return hours * 3600 + minutes * 60 + seconds

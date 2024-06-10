@@ -200,14 +200,14 @@ def import_data_from_db(user_id):
 
 
 def check_win(sudoku):
+    right = 0
     for i in range(9):
         square_row = i // 3
         square_column = i % 3
         square = sudoku.squares[f'square_{square_row}_{square_column}']
         if square.check_square_for_win() and check_row_for_win(sudoku, i) and check_column_for_win(sudoku, i):
-            print("dziala")
-            return True
-    return False
+            right += 1
+    return right == 9
 
 def check_row_for_win(sudoku, row):
     numbers = []
