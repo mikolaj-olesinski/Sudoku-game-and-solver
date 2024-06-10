@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.models import Sudoku_model, UsersSudoku_model
 from database.getData import get_timer
+from database.addData import addSolvedSudoku
 from datetime import datetime
 
 def validate_cell_changed_text(cell, sudoku):
@@ -15,8 +16,8 @@ def validate_cell_changed_text(cell, sudoku):
     square_col = cell_col // 3
 
     square = sudoku.squares[f'square_{square_row}_{square_col}']
-    if not square.validate_square(cell_row, cell_col) or not sudoku.validate_column(cell_col) or not sudoku.validate_row(cell_row):
-        cell.setStyleSheet('color: #b56')
+    if not square.validate_square(cell) or not sudoku.validate_column(cell) or not sudoku.validate_row(cell):
+        cell.setStyleSheet('color: red;')
         return False
     else:
         if not isinstance(cell, ComputerCell):
@@ -62,12 +63,15 @@ def save_sudoku(sudoku):
     users_sudoku_model.last_saved = datetime.now()
     session.commit()
 
-def check_sudoku_for_win(sudoku):
+def check_sudoku_for_win(sudoku_app):
     
-    if check_win(sudoku):
-        print('You win!')
+    if check_win(sudoku_app.sudoku):
+        addSolvedSudoku(sudoku_app.sudoku.user_id, sudoku_app.sudoku.id)
+        sudoku_app._handle_save_button()
         return True
+
     return False
+        
 
 
 

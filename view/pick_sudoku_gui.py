@@ -1,9 +1,11 @@
-from PySide6.QtWidgets import QApplication, QTableView, QStyledItemDelegate, QWidget, QVBoxLayout
+from PySide6.QtWidgets import QTableView, QStyledItemDelegate, QWidget, QVBoxLayout, QMessageBox
 from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex
 from PySide6.QtGui import QMouseEvent
 from model.utils.func import import_data_from_db
 from PySide6.QtGui import QPixmap
 from controller.apps.sudoku_game_app import sudoku_app
+from database.deleteData import deleteUsersSudoku
+from database.resetData import resetUsersSudoku
 import os
 
 class SudokuModel(QAbstractTableModel):
@@ -16,11 +18,11 @@ class SudokuModel(QAbstractTableModel):
         return len(self.sudoku_data)
 
     def columnCount(self, parent=QModelIndex()):
-        return len(self.sudoku_data[0]) + 4  # Add one for each button column
+        return len(self.sudoku_data[0]) + 4
 
     def data(self, index, role=Qt.DisplayRole):
         if role == Qt.DisplayRole:
-            if index.column() < 6:  # Display data for the first five columns
+            if index.column() < 6: 
                 return self.sudoku_data[index.row()][index.column()]
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
@@ -54,6 +56,12 @@ class ButtonDelegate(QStyledItemDelegate):
     def editorEvent(self, event, model, option, index):
         if event.type() == QMouseEvent.MouseButtonRelease and index.column() == 6:
             self._handleStartButtonClick(model, index)
+        elif event.type() == QMouseEvent.MouseButtonRelease and index.column() == 7:
+            self._handleEditButtonClick(model, index)
+        elif event.type() == QMouseEvent.MouseButtonRelease and index.column() == 8:
+            self._handleResetButtonClick(model, index)
+        elif event.type() == QMouseEvent.MouseButtonRelease and index.column() == 9:
+            self._handleDeleteButtonClick(model, index)
         return super().editorEvent(event, model, option, index)
 
     def get_path_for_icon(self, index):
@@ -78,8 +86,48 @@ class ButtonDelegate(QStyledItemDelegate):
 
     def _handleStartButtonClick(self, model, index):
         dane = model.sudoku_data[index.row()]
-        dane = dane[0]
-        self.sudoku_picker.open_sudoku(dane)
+        sudoku_id = dane[0]
+        self.sudoku_picker.open_sudoku(sudoku_id)
+
+    def _handleEditButtonClick(self, model, index):
+        pass
+
+    def _handleResetButtonClick(self, model, index):
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Question)
+        msg_box.setWindowTitle("Potwierdzenie")
+        msg_box.setText("Czy na pewno chcesz resetowac?")
+        
+        yes_button = msg_box.addButton("Tak", QMessageBox.YesRole)
+        no_button = msg_box.addButton("Nie", QMessageBox.NoRole)
+
+        msg_box.exec()
+
+        if msg_box.clickedButton() == yes_button:
+            dane = model.sudoku_data[index.row()]
+            sudoku_id = dane[0]
+            print(sudoku_id)
+            resetUsersSudoku(self.sudoku_picker.user_id, sudoku_id)
+            self.sudoku_picker.update_data()
+
+
+
+    def _handleDeleteButtonClick(self, model, index):
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Question)
+        msg_box.setWindowTitle("Potwierdzenie")
+        msg_box.setText("Czy na pewno chcesz usunac?")
+
+        yes_button = msg_box.addButton("Tak", QMessageBox.YesRole)
+        no_button = msg_box.addButton("Nie", QMessageBox.NoRole)
+
+        msg_box.exec()
+
+        if msg_box.clickedButton() == yes_button:
+            dane = model.sudoku_data[index.row()]
+            sudkou_id = dane[0]
+            deleteUsersSudoku(self.sudoku_picker.user_id, sudkou_id)
+            self.sudoku_picker.update_data()
 
 
 class SudokuPicker(QWidget):
@@ -116,6 +164,8 @@ class SudokuPicker(QWidget):
         self.model.update_data()
         self.table_view.resizeColumnsToContents()
         self._setWindowSize()
+
+    
     
 
 

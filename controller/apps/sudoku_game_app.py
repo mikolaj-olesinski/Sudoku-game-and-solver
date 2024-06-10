@@ -9,6 +9,7 @@ class sudoku_app(SudokuGUI):
     def __init__(self, user_id, sudoku_id, sudoku_picker):
         super().__init__()
         self.sudoku.user_id = user_id
+        self.sudoku_id = sudoku_id
         self.sudoku_picker = sudoku_picker
 
         self.sudoku.update_board(get_board_from_db(sudoku_id, user_id), sudoku_id)
@@ -24,7 +25,7 @@ class sudoku_app(SudokuGUI):
             if isinstance(cell, BlankCell):
                 cell.returnPressed.connect(lambda cell=cell, row=row, col=col: hint_for_sudoku(self.sudoku, row, col))
                 cell.editingFinished.connect(lambda cell=cell: validate_cell_changed_text(cell, self.sudoku))
-                cell.editingFinished.connect(lambda: check_sudoku_for_win(self.sudoku))
+                cell.editingFinished.connect(lambda: check_sudoku_for_win(self))
             
 
 
@@ -43,7 +44,7 @@ class sudoku_app(SudokuGUI):
 
     def _handle_hint_button(self):
         hint_for_sudoku(self.sudoku)
-        check_sudoku_for_win(self.sudoku)
+        check_sudoku_for_win(self)
 
     def _handle_save_button(self):
         save_sudoku(self.sudoku)

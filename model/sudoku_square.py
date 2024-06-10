@@ -30,7 +30,10 @@ class SudokuSquare(QWidget):
                 row_cells.append(cell)
             self.cells.append(row_cells)
 
-    def validate_square(self, x, y):
+    def validate_square(self, cell):
+        if cell.text() == '':
+            return True
+        
         numbers = []
         for i in range(3):
             for j in range(3):

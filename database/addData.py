@@ -41,8 +41,8 @@ def addUser(name):
 
 def addUsersSudoku(user_id, sudoku_id, started_at, last_saved, time, is_solved):
     sudoku_model = session.query(Sudoku_model).filter(Sudoku_model.id == sudoku_id).first()
-    user_model = session.query(User_model).filter(User_model.id == user_id).first()
-    users_sudoku = UsersSudoku_model(user_id=user_model.id, sudoku_id=sudoku_model.id, started_at=started_at, last_saved=last_saved, time=time, is_solved=is_solved)
+
+    users_sudoku = UsersSudoku_model(user_id=user_id, sudoku_id=sudoku_model.id, started_at=started_at, last_saved=last_saved, time=time, is_solved=is_solved)
     users_sudoku.current_sudoku_state = sudoku_data_to_saved_sudoku_data(sudoku_model.data)
 
     session.add(users_sudoku)
@@ -54,7 +54,7 @@ def addSudokuToAllUsers(sudoku_id):
     sudoku_model = session.query(Sudoku_model).filter(Sudoku_model.id == sudoku_id).first()
     if users:
         for user in users:
-            users_sudoku = UsersSudoku_model(user_id=user.id, sudoku_id=sudoku_model.id, started_at=datetime.now(), last_saved=datetime.now(), time=0, is_solved=False)
+            users_sudoku = UsersSudoku_model(user_id=user.id, sudoku_id=sudoku_model.id, started_at=datetime.now(), last_saved=None, time="00:00:00", is_solved=False)
             users_sudoku.current_sudoku_state = sudoku_data_to_saved_sudoku_data(sudoku_model.data)
 
             session.add(users_sudoku)
@@ -64,10 +64,9 @@ def addSudokuToAllUsers(sudoku_id):
 
 def addToUserAllSudokus(user_id):
     sudokus = session.query(Sudoku_model).all()
-    user_model = session.query(User_model).filter(User_model.id == user_id).first()
     if sudokus:
         for sudoku in sudokus:
-            users_sudoku = UsersSudoku_model(user_id=user_model.id, sudoku_id=sudoku.id, started_at=datetime.now(), last_saved=datetime.now(), time=0, is_solved=False)
+            users_sudoku = UsersSudoku_model(user_id=user_id, sudoku_id=sudoku.id, started_at=datetime.now(), last_saved=None, time="00:00:00", is_solved=False)
             users_sudoku.current_sudoku_state = sudoku_data_to_saved_sudoku_data(sudoku.data)
             session.add(users_sudoku)
             session.commit()
@@ -82,6 +81,7 @@ def addTimer(user_id, sudoku_id, time):
 def addSolvedSudoku(user_id, sudoku_id):
     user_sudoku = session.query(UsersSudoku_model).filter(UsersSudoku_model.user_id == user_id, UsersSudoku_model.sudoku_id == sudoku_id).first()
     user_sudoku.is_solved = True
+    print(user_sudoku.is_solved)
     session.commit()
 
 

@@ -48,7 +48,11 @@ class Sudoku(QWidget):
 
         return cells, squares
 
-    def validate_row(self, row):
+    def validate_row(self, cell):
+        if cell.text() == '':
+            return True
+        
+        row = int(cell.objectName().split('_')[1])
         numbers = []
         for i in range(9):
             cell = self.cells[f'cell_{row}_{i}']
@@ -59,7 +63,11 @@ class Sudoku(QWidget):
             return False
         return True
 
-    def validate_column(self, column):
+    def validate_column(self, cell):
+        if cell.text() == '':
+            return True
+        
+        column = int(cell.objectName().split('_')[2])
         numbers = []
         for i in range(9):
             cell = self.cells[f'cell_{i}_{column}']
@@ -84,6 +92,7 @@ class Sudoku(QWidget):
                     cell = BlankCell()
                     self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                     cell.setText(value)
+
                 elif value[0] == 'S':
                     cell = SolvedCell()
                     self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
@@ -94,6 +103,23 @@ class Sudoku(QWidget):
                 cell = BlankCell()
                 self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                 cell.setText('')
+
+        self.update_colors_on_board()
+
+    def update_colors_on_board(self):
+
+        for _, cell in self.cells.items():
+            if isinstance(cell, BlankCell) and cell.text() != '':
+                cell_row = int(cell.objectName().split('_')[1])
+                cell_col = int(cell.objectName().split('_')[2])
+
+                square_row = cell_row // 3
+                square_col = cell_col // 3
+
+                square = self.squares[f'square_{square_row}_{square_col}']
+                if not square.validate_square(cell) or not self.validate_column(cell) or not self.validate_row(cell):
+                    cell.setStyleSheet("color: red;")
+
 
     def switch_cell(self, new_cell, x_row, y_column):
         old_cell = self.cells[f'cell_{x_row}_{y_column}']
