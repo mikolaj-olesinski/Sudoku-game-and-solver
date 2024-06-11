@@ -1,10 +1,7 @@
-import sys
-import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
 from database.models import Sudoku_model, User_model, UsersSudoku_model
-from model.utils.func import solve_sudoku, databaseData_to_grid, flatten_to_string, find_difficulty, sudoku_data_to_saved_sudoku_data
+from model.utils.func import sudoku_data_to_saved_sudoku_data
 
 
 db_name = 'sudoku_database'

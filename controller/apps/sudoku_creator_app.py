@@ -1,8 +1,7 @@
 from model.utils.func import get_data_from_sudoku
 from view.sudoku_creator_gui import SudokuCreatorGUI
-from controller.controls.sudoku_control import validate_cell_changed_text_for_creator, hint_for_sudoku, save_sudoku, check_sudoku_for_win
+from controller.controls.sudoku_control import validate_cell_changed_text_for_creator
 from model.utils.classes import BlankCell
-from database.getData import get_timer
 from database.addData import addSudoku
 
 class SudokuCreatorApp(SudokuCreatorGUI):

@@ -1,5 +1,4 @@
-import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget
 from PySide6.QtCore import Qt
 from controller.apps.sudoku_game_app import sudoku_app
 

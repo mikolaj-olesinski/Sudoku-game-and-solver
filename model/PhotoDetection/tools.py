@@ -1,13 +1,16 @@
 import cv2
 import numpy as np
-from tensorflow.keras.models import load_model
+#from tensorflow.models.load_model import load_model
+import tensorflow as tf
 import os 
 
 
 #### READ THE MODEL WEIGHTS
 def intializePredectionModel():
     path = os.path.abspath(os.path.join('constants', 'images', 'myModel.h5'))
-    model = load_model(path)
+    model = tf.keras.models.load_model(path)
+    print("Model Loaded Successfully")
+    model.summary()
     return model
 
 
@@ -17,7 +20,6 @@ def preProcess(img):
     imgBlur = cv2.GaussianBlur(imgGray, (5, 5), 1)  # ADD GAUSSIAN BLUR
     imgThreshold = cv2.adaptiveThreshold(imgBlur, 255, 1, 1, 11, 2)  # APPLY ADAPTIVE THRESHOLD
     return imgThreshold
-
 
 #### 3 - Reorder points for Warp Perspective
 def reorder(myPoints):
@@ -59,13 +61,13 @@ def splitBoxes(img):
 
 
 #### 4 - GET PREDECTIONS ON ALL IMAGES
-def getPredection(boxes,model):
+def getPredection(boxes, model):
     result = []
     for image in boxes:
         ## PREPARE IMAGE
         img = np.asarray(image)
-        img = img[4:img.shape[0] - 4, 4:img.shape[1] -4]
-        img = cv2.resize(img, (28, 28))
+        img = cv2.resize(img, (28, 28))  # Resize to match model input size
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # Convert to grayscale
         img = img / 255
         img = img.reshape(1, 28, 28, 1)
         ## GET PREDICTION

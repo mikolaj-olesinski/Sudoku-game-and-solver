@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout
 from PySide6.QtGui import QPixmap
-from model.utils.classes import Stoper
 from PySide6.QtCore import Qt
 import os
 from model.sudoku_picker import SudokuPicker
