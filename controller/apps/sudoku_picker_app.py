@@ -4,12 +4,13 @@ from controller.controls.sudoku_control import validate_cell_changed_text, hint_
 from model.utils.classes import BlankCell
 from database.getData import get_timer
 from database.addData import addTimer
-from model.sudoku_adder import AddSudokuWindow
+from controller.apps.sudoku_adder_app import SudokuAdderApp
 
 class sudoku_picker_app(SudokuPickerGUI):
     def __init__(self, user_id, login_app):
         super().__init__(user_id)
         self.login_app = login_app
+        self.sudoku_picker.app = self
         self.connect_back_button()
         self.connect_add_sudoku_button()
     
@@ -24,7 +25,7 @@ class sudoku_picker_app(SudokuPickerGUI):
         self.close()
 
     def _handle_add_sudoku_button(self):
-        self.add_sudoku_window = AddSudokuWindow()
+        self.add_sudoku_window = SudokuAdderApp(self)
         self.add_sudoku_window.show()
         self.close()
 

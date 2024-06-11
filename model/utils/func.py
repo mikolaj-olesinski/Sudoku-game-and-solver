@@ -193,7 +193,7 @@ def import_data_from_db(user_id):
     data = []
     for user_sudoku in users_sudoku:
         sudoku = session.query(Sudoku_model).filter(Sudoku_model.id == user_sudoku.sudoku_id).first()
-        data.append([sudoku.id, sudoku.difficulty, user_sudoku.is_solved, user_sudoku.time, str(user_sudoku.started_at)[:19], str(user_sudoku.last_saved)[:19]])
+        data.append([sudoku.id, sudoku.difficulty, str(sudoku.created_at)[:19], user_sudoku.time, str(user_sudoku.started_at)[:19], str(user_sudoku.last_saved)[:19]])
 
     session.close()
     return data
@@ -231,3 +231,47 @@ def check_column_for_win(sudoku, column):
         return True
     return False
 
+
+def is_solvable(sudoku_string):
+    sudoku = sudoku_string.split(',')
+    print(sudoku)
+    print("Checking if length is 81")
+    if len(sudoku) != 81:
+        return False
+    
+    print("Checking if all elements are digits")
+    for digit in sudoku:
+        if not digit.isdigit() or int(digit) < 0 or int(digit) > 9:
+            return False
+    
+
+    sudoku_grid = [sudoku[i:i+9] for i in range(0, len(sudoku), 9)]
+
+    for row in sudoku_grid:
+        print(row)
+
+    print("Checking if rows are valid")
+    for row in sudoku_grid:
+        temp = [int(i) for i in row if i != '0']
+        if len(temp) != len(set(temp)):
+            print("Invalid row", row)
+            return False
+    
+    print("Checking if columns are valid")
+    for i in range(9):
+        column = [row[i] for row in sudoku_grid]
+
+        temp = [int(i) for i in column if i != '0']
+        if len(temp) != len(set(temp)):
+            return False
+
+    print("Checking if squares are valid")
+    for i in range(0, 9, 3):
+        for j in range(0, 9, 3):
+            square = [sudoku_grid[x][y] for x in range(i, i+3) for y in range(j, j+3)]
+
+            temp = [int(i) for i in square if i != '0']
+            if len(temp) != len(set(temp)):
+                return False
+    
+    return True

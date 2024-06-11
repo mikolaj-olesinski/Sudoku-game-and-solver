@@ -7,6 +7,7 @@ from database.models import Sudoku_model, UsersSudoku_model
 from database.getData import get_timer
 from database.addData import addSolvedSudoku
 from datetime import datetime
+from PySide6.QtWidgets import QMessageBox
 
 def validate_cell_changed_text(cell, sudoku):
     cell_row = int(cell.objectName().split('_')[1])
@@ -22,6 +23,23 @@ def validate_cell_changed_text(cell, sudoku):
     else:
         if not isinstance(cell, ComputerCell):
             cell.setStyleSheet('color: blue;')
+        return True
+    
+def validate_cell_changed_text_for_creator(cell, sudoku):
+    cell_row = int(cell.objectName().split('_')[1])
+    cell_col = int(cell.objectName().split('_')[2])
+
+    square_row = cell_row // 3
+    square_col = cell_col // 3
+
+    square = sudoku.squares[f'square_{square_row}_{square_col}']
+    if not square.validate_square(cell) or not sudoku.validate_column(cell) or not sudoku.validate_row(cell):
+        cell.setText('')
+        QMessageBox.about(cell, "Błąd", "Wprowadzona wartość jest niepoprawna")
+        return False
+    else:
+        if not isinstance(cell, ComputerCell):
+            cell.setStyleSheet('color: white;')
         return True
 
 def hint_for_sudoku(sudoku, row = None, col = None):
@@ -59,6 +77,9 @@ def save_sudoku(sudoku):
 
     users_sudoku_model = session.query(UsersSudoku_model).filter(UsersSudoku_model.sudoku_id == sudoku.id, UsersSudoku_model.user_id == user_id).first()
 
+    if users_sudoku_model.started_at is None:
+        users_sudoku_model.started_at = datetime.now()
+
     users_sudoku_model.current_sudoku_state = saved_data
     users_sudoku_model.last_saved = datetime.now()
     session.commit()
@@ -71,6 +92,8 @@ def check_sudoku_for_win(sudoku_app):
         return True
 
     return False
+
+
         
 
 

@@ -54,7 +54,7 @@ def addSudokuToAllUsers(sudoku_id):
     sudoku_model = session.query(Sudoku_model).filter(Sudoku_model.id == sudoku_id).first()
     if users:
         for user in users:
-            users_sudoku = UsersSudoku_model(user_id=user.id, sudoku_id=sudoku_model.id, started_at=datetime.now(), last_saved=None, time="00:00:00", is_solved=False)
+            users_sudoku = UsersSudoku_model(user_id=user.id, sudoku_id=sudoku_model.id, started_at=None, last_saved=None, time="00:00:00", is_solved=False)
             users_sudoku.current_sudoku_state = sudoku_data_to_saved_sudoku_data(sudoku_model.data)
 
             session.add(users_sudoku)
@@ -66,7 +66,7 @@ def addToUserAllSudokus(user_id):
     sudokus = session.query(Sudoku_model).all()
     if sudokus:
         for sudoku in sudokus:
-            users_sudoku = UsersSudoku_model(user_id=user_id, sudoku_id=sudoku.id, started_at=datetime.now(), last_saved=None, time="00:00:00", is_solved=False)
+            users_sudoku = UsersSudoku_model(user_id=user_id, sudoku_id=sudoku.id, started_at=None, last_saved=None, time="00:00:00", is_solved=False)
             users_sudoku.current_sudoku_state = sudoku_data_to_saved_sudoku_data(sudoku.data)
             session.add(users_sudoku)
             session.commit()

@@ -53,7 +53,7 @@ class sudoku_app(SudokuGUI):
     def _handle_back_button(self): 
         self._handle_save_button()
         self.sudoku_picker.update_data()
-        self.sudoku_picker.show()
+        self.sudoku_picker.app.show()
         self.close()
 
         

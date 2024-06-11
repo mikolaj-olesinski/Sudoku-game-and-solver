@@ -3,7 +3,7 @@ from PySide6.QtGui import QPixmap
 from model.utils.classes import Stoper
 from PySide6.QtCore import Qt
 import os
-from model.pick_sudoku import SudokuPicker
+from model.sudoku_picker import SudokuPicker
 
 class TopWidgetForSudokuPicker(QWidget):
     def __init__(self):

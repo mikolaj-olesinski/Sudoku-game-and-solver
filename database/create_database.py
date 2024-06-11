@@ -31,9 +31,16 @@ def create_database_and_add_basic_sudokus(db_name):
         sudoku1 = get_sudoku_string_from_file("constants/sudoku1.txt")
         sudoku2 = get_sudoku_string_from_file("constants/sudoku2.txt")
         sudoku3 = get_sudoku_string_from_file("constants/sudoku3.txt")
+        sudoku4 = get_sudoku_string_from_file("constants/sudoku4.txt")
+        sudoku5 = get_sudoku_string_from_file("constants/sudoku5.txt")
+        sudoku6 = get_sudoku_string_from_file("constants/sudoku6.txt")
+
 
         addUser("admin")
         addSudoku(sudoku1)
         addSudoku(sudoku2)
         addSudoku(sudoku3)
+        addSudoku(sudoku4)
+        addSudoku(sudoku5)
+        addSudoku(sudoku6)
     
