@@ -1,11 +1,9 @@
 from model.utils.classes import ComputerCell, SolvedCell
 from model.utils.func import get_hint_for_sudoku, databaseData_to_grid, get_data_from_sudoku, get_saved_data_from_sudoku, check_win
-from model.sudoku_class import Sudoku
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.models import Sudoku_model, UsersSudoku_model
-from database.getData import get_timer
-from database.addData import addSolvedSudoku
+from database.resetData import resetUsersSudoku
 from datetime import datetime
 from PySide6.QtWidgets import QMessageBox
 
@@ -87,8 +85,9 @@ def save_sudoku(sudoku):
 def check_sudoku_for_win(sudoku_app):
     
     if check_win(sudoku_app.sudoku):
-        addSolvedSudoku(sudoku_app.sudoku.user_id, sudoku_app.sudoku.id)
-        sudoku_app._handle_save_button()
+        QMessageBox.about(sudoku_app, "Gratulacje", "Gratulacje, udało Ci się rozwiązać sudoku!")
+        resetUsersSudoku(sudoku_app.sudoku.user_id, sudoku_app.sudoku.id)
+        sudoku_app._handle_back_button()
         return True
 
     return False

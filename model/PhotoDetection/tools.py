@@ -1,12 +1,12 @@
 import cv2
 import numpy as np
 from tensorflow.keras.models import load_model
-import os
+import os 
 
 
 #### READ THE MODEL WEIGHTS
 def intializePredectionModel():
-    path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'images/myModel.h5'))
+    path = os.path.abspath(os.path.join('constants', 'images', 'myModel.h5'))
     model = load_model(path)
     return model
 
@@ -59,7 +59,7 @@ def splitBoxes(img):
 
 
 #### 4 - GET PREDECTIONS ON ALL IMAGES
-def getPrediction(boxes, model):
+def getPredection(boxes,model):
     result = []
     for image in boxes:
         ## PREPARE IMAGE
@@ -78,7 +78,6 @@ def getPrediction(boxes, model):
         else:
             result.append(0)
     return result
-
 
 
 #### 6 -  TO DISPLAY THE SOLUTION ON THE IMAGE
