@@ -7,7 +7,7 @@ from database.resetData import resetUsersSudoku
 from datetime import datetime
 from PySide6.QtWidgets import QMessageBox
 
-def validate_cell_changed_text(cell, sudoku):
+def validate_cell_changed_text(cell, sudoku, color = 'blue'):
     cell_row = int(cell.objectName().split('_')[1])
     cell_col = int(cell.objectName().split('_')[2])
 
@@ -20,25 +20,9 @@ def validate_cell_changed_text(cell, sudoku):
         return False
     else:
         if not isinstance(cell, ComputerCell):
-            cell.setStyleSheet('color: blue;')
+            cell.setStyleSheet(f'color: {color};')
         return True
-    
-def validate_cell_changed_text_for_creator(cell, sudoku):
-    cell_row = int(cell.objectName().split('_')[1])
-    cell_col = int(cell.objectName().split('_')[2])
 
-    square_row = cell_row // 3
-    square_col = cell_col // 3
-
-    square = sudoku.squares[f'square_{square_row}_{square_col}']
-    if not square.validate_square(cell) or not sudoku.validate_column(cell) or not sudoku.validate_row(cell):
-        cell.setText('')
-        QMessageBox.about(cell, "Błąd", "Wprowadzona wartość jest niepoprawna")
-        return False
-    else:
-        if not isinstance(cell, ComputerCell):
-            cell.setStyleSheet('color: white;')
-        return True
 
 def hint_for_sudoku(sudoku, row = None, col = None):
     db_name = 'sudoku_database'

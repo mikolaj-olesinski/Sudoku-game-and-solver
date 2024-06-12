@@ -78,7 +78,7 @@ class Sudoku(QWidget):
             return False
         return True
     
-    def update_board(self, board, sudoku_id = None):
+    def update_board(self, board, sudoku_id = None, blank_cell_color = 'blue'):
         self.id = sudoku_id
 
         for cell_name, value in board.items():
@@ -89,7 +89,7 @@ class Sudoku(QWidget):
                     self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                     cell.setText(value[1])
                 elif value in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
-                    cell = BlankCell()
+                    cell = BlankCell(blank_cell_color)
                     self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                     cell.setText(value)
 
@@ -100,7 +100,7 @@ class Sudoku(QWidget):
 
             
             else:
-                cell = BlankCell()
+                cell = BlankCell(blank_cell_color)
                 self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                 cell.setText('')
 
@@ -119,7 +119,6 @@ class Sudoku(QWidget):
                 square = self.squares[f'square_{square_row}_{square_col}']
                 if not square.validate_square(cell) or not self.validate_column(cell) or not self.validate_row(cell):
                     cell.setStyleSheet("color: red;")
-
 
     def switch_cell(self, new_cell, x_row, y_column):
         old_cell = self.cells[f'cell_{x_row}_{y_column}']

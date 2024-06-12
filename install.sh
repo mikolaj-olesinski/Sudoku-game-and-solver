@@ -22,4 +22,5 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 echo "Instalacja zakończona. Użyj 'source venv/bin/activate' aby aktywować wirtualne środowisko. Następnie uruchom 'python app.py' aby uruchomić program."
-```
+
+

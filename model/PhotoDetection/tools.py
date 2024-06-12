@@ -4,12 +4,13 @@ import numpy as np
 import tensorflow as tf
 import os 
 
-##CODE INSPIRED FROM 
+##CODE INSPIRED FROM https://github.com/murtazahassan/OpenCV-Sudoku-Solver
 
 #### READ THE MODEL WEIGHTS
 def intializePredectionModel():
     path = os.path.abspath(os.path.join('constants', 'images', 'myModel.h5'))
     model = tf.keras.models.load_model(path)
+    #model = load_model(path)
     print("Model Loaded Successfully")
     model.summary()
     return model

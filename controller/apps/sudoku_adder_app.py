@@ -1,5 +1,4 @@
-from model.utils.func import get_sudoku_string_from_file, is_solvable
-from database.addData import addSudoku
+from model.utils.func import get_sudoku_string_from_file, is_valid
 from view.sudoku_adder_gui import AddSudokuGUI
 from controller.apps.sudoku_creator_app import SudokuCreatorApp
 from PySide6.QtWidgets import QMessageBox, QFileDialog
@@ -32,11 +31,10 @@ class SudokuAdderApp(AddSudokuGUI):
         elif options == 'Stwórz własny':
             self.addSudokuFromUser()
         elif options == 'Dodaj ze zdjecia':
-            print("Dodaj ze zdjecia")
             self.addSudokuFromImage()
 
     def addSudokuFromUser(self):
-        sudokuCreatorApp = SudokuCreatorApp(self.sudoku_picker_app)
+        sudokuCreatorApp = SudokuCreatorApp(sudoku_picker_app=self.sudoku_picker_app)
         sudokuCreatorApp.show()
         self.close()
 
@@ -47,12 +45,13 @@ class SudokuAdderApp(AddSudokuGUI):
             try:
                 with open(file_path, 'r'):
                     sudoku_string = get_sudoku_string_from_file(file_path)   
-                    is_valid = is_solvable(sudoku_string)
-                    print(f"Is valid: {is_valid}")
+                    valid = is_valid(sudoku_string)
+
                 
-                if is_valid:
-                    addSudoku(sudoku_string)
-                    QMessageBox.information(self, 'Sukces', 'Sudoku zostało wczytane poprawnie!')
+                if valid:
+                    sudoku_creator_app = SudokuCreatorApp(sudoku_picker_app=self.sudoku_picker_app, data=sudoku_string)
+                    sudoku_creator_app.show()
+                    self.close()
                 else:
                     QMessageBox.warning(self, 'Błąd', 'Niepoprawny format Sudoku lub Sudoku nie jest rozwiązywalne.')
             except Exception as e:
@@ -67,18 +66,16 @@ class SudokuAdderApp(AddSudokuGUI):
                 with open(file_path, 'r'):
 
                     sudoku = get_sudoku_from_image(file_path)
-                    print("a")
                     array_str = np.array_str(sudoku, max_line_width=np.inf, precision=0)
-
                     array_str = array_str.replace('[', '').replace(']', '').replace('\n', '').replace(' ', ',')
                     sudoku_string = array_str
-                    print("b")
-                    is_valid = is_solvable(sudoku_string)
-                    print(f"Is valid: {is_valid}")
+                    valid = is_valid(sudoku_string)
+
                 
-                if is_valid:
-                    addSudoku(sudoku_string)
-                    QMessageBox.information(self, 'Sukces', 'Sudoku zostało wczytane poprawnie!')
+                if valid:
+                    sudoku_creator_app = SudokuCreatorApp(sudoku_picker_app=self.sudoku_picker_app, data=sudoku_string)
+                    sudoku_creator_app.show()
+                    self.close()
                 else:
                     QMessageBox.warning(self, 'Błąd', 'Niepoprawny format Sudoku lub Sudoku nie jest rozwiązywalne.')
             except Exception as e:

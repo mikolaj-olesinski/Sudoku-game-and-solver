@@ -5,6 +5,7 @@ from model.PhotoDetection.tools import intializePredectionModel, preProcess, reo
 import numpy as np
 import cv2
 
+###CODE INSPIRED FROM https://github.com/murtazahassan/OpenCV-Sudoku-Solver
 
 def get_sudoku_from_image(path):
     ########################################################################

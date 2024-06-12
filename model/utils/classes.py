@@ -47,9 +47,9 @@ class ComputerCell(QLineEdit):
         self.setMaxLength(other.maxLength())
 
 class BlankCell(QLineEdit):
-    def __init__(self):
+    def __init__(self, color = 'white'):
         super().__init__()
-        self.setStyleSheet('color: blue;')
+        self.setStyleSheet(f'color: {color};')
         #self.setCursor(Qt.ArrowCursor)
 
     def copy_properties(self, other):

@@ -34,6 +34,15 @@ def get_board_from_db(sudoku_id, user_id):
     session.close()
     return board
 
+def get_board_from_string(data):
+    data = data.split(',')
+    board = {}
+    for i in range(9):
+        for j in range(9):
+            board[f'cell_{i}_{j}'] = data[i * 9 + j]
+
+    return board
+
 def get_data_from_sudoku(sudoku):
     cells = sudoku.cells
     string = ''
@@ -231,18 +240,26 @@ def check_column_for_win(sudoku, column):
         return True
     return False
 
+def is_valid(sudoku_string):
 
-def is_solvable(sudoku_string):
     sudoku = sudoku_string.split(',')
-    print(sudoku)
-    print("Checking if length is 81")
+
+    print("Checking if the number of numbers is bigger than 81")
     if len(sudoku) != 81:
         return False
     
-    print("Checking if all elements are digits")
+    print("Checking if the numbers are valid")
     for digit in sudoku:
         if not digit.isdigit() or int(digit) < 0 or int(digit) > 9:
             return False
+    return True
+
+def is_solvable(sudoku_string):
+    sudoku = sudoku_string.split(',')
+    
+    print("Checking if the number of numbers is bigger than 17")
+    if sudoku.count('0') > 64:
+        return False
     
 
     sudoku_grid = [sudoku[i:i+9] for i in range(0, len(sudoku), 9)]
