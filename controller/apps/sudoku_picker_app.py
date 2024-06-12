@@ -1,9 +1,4 @@
-from model.utils.func import get_board_from_db
 from view.sudoku_picker_gui import SudokuPickerGUI
-from controller.controls.sudoku_control import validate_cell_changed_text, hint_for_sudoku, save_sudoku, check_sudoku_for_win
-from model.utils.classes import BlankCell
-from database.getData import get_timer
-from database.addData import addTimer
 from controller.apps.sudoku_adder_app import SudokuAdderApp
 
 class sudoku_picker_app(SudokuPickerGUI):

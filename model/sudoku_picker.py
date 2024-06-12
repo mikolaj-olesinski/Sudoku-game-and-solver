@@ -17,13 +17,13 @@ class SudokuModel(QAbstractTableModel):
 
     def rowCount(self, parent=QModelIndex()):
         if not self.sudoku_data:
-            return 1  # To display the placeholder message
+            return 1 
         return len(self.sudoku_data)
 
     def columnCount(self, parent=QModelIndex()):
         if not self.sudoku_data:
-            return 1  # Only one column for the placeholder message
-        return len(self.sudoku_data[0]) + 3  # Update the column count
+            return 1  
+        return len(self.sudoku_data[0]) + 3 
 
     def data(self, index, role=Qt.DisplayRole):
         if not self.sudoku_data:
@@ -40,7 +40,7 @@ class SudokuModel(QAbstractTableModel):
             if not self.sudoku_data:
                 return ""
             if orientation == Qt.Horizontal:
-                headers = ['id', 'difficulty', 'created', 'timer', 'started', 'last saved', 'Start', 'Reset', 'Delete']  # Remove the Edit header
+                headers = ['id', 'difficulty', 'created', 'timer', 'started', 'last saved', 'Start', 'Reset', 'Delete'] 
                 return headers[section]
 
     def sort(self, column, order):
@@ -67,7 +67,7 @@ class ButtonDelegate(QStyledItemDelegate):
 
     def editorEvent(self, event, model, option, index):
         if not model.sudoku_data:
-            return False  # No interaction if there is no data
+            return False  
 
         if event.type() == QMouseEvent.MouseButtonRelease and index.column() == 6:
             self._handleStartButtonClick(model, index)
@@ -79,7 +79,7 @@ class ButtonDelegate(QStyledItemDelegate):
 
     def get_path_for_icon(self, index):
         base_path = os.path.abspath(os.path.join("constants", "resources"))
-        icons = ["play.png", "reset.png", "delete.png"]  # Remove the edit icon
+        icons = ["play.png", "reset.png", "delete.png"] 
         if 6 <= index.column() <= 8:
             return os.path.join(base_path, icons[index.column() - 6])
         return "Button"

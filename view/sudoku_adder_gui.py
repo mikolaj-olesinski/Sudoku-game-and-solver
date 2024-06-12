@@ -1,4 +1,3 @@
-import sys
 from PySide6.QtWidgets import QHBoxLayout, QMainWindow, QLabel, QComboBox, QPushButton, QVBoxLayout, QWidget
 from PySide6.QtCore import Qt
 
@@ -11,7 +10,7 @@ class AddSudokuGUI(QMainWindow):
 
         self.option_label = QLabel("Wybierz sposób dodania sudoku:")
         self.option_combo_box = QComboBox()
-        self.option_combo_box.addItems(["Dodaj z pliku", "Stwórz własny", "Dodaj ze zdjecia"])  # Dodaj tutaj swoje opcje
+        self.option_combo_box.addItems(["Dodaj z pliku", "Stwórz własny", "Dodaj ze zdjecia"]) 
 
         self.go_back_button = QPushButton("Cofnij")
         self.go_back_button.setObjectName("go_back_button")
