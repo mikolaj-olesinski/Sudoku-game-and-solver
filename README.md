@@ -1,4 +1,4 @@
-#Sudoku game and slover
+# Sudoku game and slover
 
 ## Project describtion
 
@@ -20,35 +20,35 @@ Sudoku game with graphical user interface based on solving Sudoku puzzles, impor
 
 ## Examples
 
-## Login or register
+### Login or register
 
 You can login or register a user by typing a username that was not created before
 
-# Menu
+### Menu
 
 You can pick from any sudoku that is added, you can sord them by id, difficulty, last saved date etc
 
-# Adding sudoku
+### Adding sudoku
 
 You can choose from 3 options adding from file, picture or creating sudoku by yourself
 
-## Adding sudoku from file
+### Adding sudoku from file
 
 You can choose from all of the txt files in your system. The application checks if its valid and then you can edit it in editor and save to database
 
-## Adding sudoku from picture
+### Adding sudoku from picture
 
 You can choose from all of the pictures in your system. The application will find the contours of the sudoku using OpenCV and then determine the numbers using tensorflow. It will check if its valid and then you can edit it in editor and save to database
 
-## Creating sudoku
+### Creating sudoku
 
 You can create sudoku using special GUI and then add it to database
 
-## Hints
+### Hints
 
 All of the sudoku have the option to get a hint if a user is stuck and cant get and answer, they can get a random hint by pushing a button or they can get personalized hint by pressing enter in a cell
 
-## Winning :D
+### Winning :D
 
 ## Instalation
 
