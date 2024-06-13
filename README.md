@@ -21,12 +21,13 @@ Sudoku game with graphical user interface based on solving Sudoku puzzles, impor
 ## Examples
 
 ### Login or register
-
 You can login or register a user by typing a username that was not created before
+![logowanie](https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/25c16498-8e66-4e0a-83b7-3688dd13d731)
+![rejestrowanie](https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/02c7c395-b395-4d03-abeb-0d71a9946656)
 
 ### Menu
-
 You can pick from any sudoku that is added, you can sord them by id, difficulty, last saved date etc
+![menu](https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/2c8982db-6b07-434c-a1cf-abf8d8b43cb6)
 
 ### Adding sudoku
 
