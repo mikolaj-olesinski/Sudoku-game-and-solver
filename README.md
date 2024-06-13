@@ -22,6 +22,7 @@ Sudoku game with graphical user interface based on solving Sudoku puzzles, impor
 
 ### Login or register
 You can login or register a user by typing a username that was not created before
+
 ![logowanie](https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/25c16498-8e66-4e0a-83b7-3688dd13d731)
 ![rejestrowanie](https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/02c7c395-b395-4d03-abeb-0d71a9946656)
 
@@ -30,26 +31,32 @@ You can pick from any sudoku that is added, you can sord them by id, difficulty,
 ![menu](https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/2c8982db-6b07-434c-a1cf-abf8d8b43cb6)
 
 ### Adding sudoku
-
 You can choose from 3 options adding from file, picture or creating sudoku by yourself
 
-### Adding sudoku from file
+![menu_dodawania](https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/f04d7f8a-540f-4a35-a22f-1d156c67fbd7)
 
+### Adding sudoku from file
 You can choose from all of the txt files in your system. The application checks if its valid and then you can edit it in editor and save to database
 
+https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/32d19977-0370-473f-8165-002a6ecb67ce
 ### Adding sudoku from picture
-
 You can choose from all of the pictures in your system. The application will find the contours of the sudoku using OpenCV and then determine the numbers using tensorflow. It will check if its valid and then you can edit it in editor and save to database
 
-### Creating sudoku
+https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/45c58ee2-d728-48e1-8d76-03b8ccd27de2
 
+### Creating sudoku
 You can create sudoku using special GUI and then add it to database
 
+https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/00a67ce0-186a-4f21-bd78-c7473a05edb3
 ### Hints
-
 All of the sudoku have the option to get a hint if a user is stuck and cant get and answer, they can get a random hint by pushing a button or they can get personalized hint by pressing enter in a cell
 
+
+https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/68821106-4e07-495d-90db-9c17c17ed1f2
+
 ### Winning :D
+![wygranie](https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/c696c1fb-e5a3-41d3-ae35-84d6d1169172)
+
 
 ## Instalation
 
@@ -66,4 +73,3 @@ All of the sudoku have the option to get a hint if a user is stuck and cant get 
    ./install.sh
    ```
 
-##Project Overview
