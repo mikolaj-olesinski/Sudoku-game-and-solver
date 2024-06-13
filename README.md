@@ -74,3 +74,8 @@ https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/688
    ./install.sh
    ```
 
+3. **Run the application**:
+   ```bash
+   python app.py
+   ```
+
