@@ -153,11 +153,7 @@ def isValid(grid, r, c, k):
     - bool: True if valid placement, False otherwise.
     """
     for i in range(9):
-        if grid[r][i] == k:
-            return False
-    
-    for i in range(9):
-        if grid[i][c] == k:
+        if grid[r][i] == k or grid[i][c] == k:
             return False
     
     startRow, startCol = 3 * (r // 3), 3 * (c // 3)
