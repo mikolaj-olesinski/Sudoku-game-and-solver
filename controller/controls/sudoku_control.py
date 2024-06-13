@@ -7,7 +7,24 @@ from database.resetData import resetUsersSudoku
 from datetime import datetime
 from PySide6.QtWidgets import QMessageBox
 
-def validate_cell_changed_text(cell, sudoku, color = 'blue'):
+def validate_cell_changed_text(cell, sudoku, color='blue'):
+    """
+    Validates the text entered in a Sudoku cell based on Sudoku rules.
+
+    Parameters
+    ----------
+    cell : QWidget
+        The cell widget in the Sudoku grid.
+    sudoku : SudokuGUI
+        The Sudoku game instance that contains the Sudoku grid.
+    color : str, optional
+        The color of the text in the cell upon validation (default is 'blue').
+
+    Returns
+    -------
+    bool
+        True if the cell text is valid according to Sudoku rules, False otherwise.
+    """
     cell_row = int(cell.objectName().split('_')[1])
     cell_col = int(cell.objectName().split('_')[2])
 
@@ -23,8 +40,22 @@ def validate_cell_changed_text(cell, sudoku, color = 'blue'):
             cell.setStyleSheet(f'color: {color};')
         return True
 
+def hint_for_sudoku(sudoku, row=None, col=None):
+    """
+    Provides a hint for the Sudoku puzzle.
 
-def hint_for_sudoku(sudoku, row = None, col = None):
+    This function retrieves the solved Sudoku data from the database, compares it with the current Sudoku data,
+    and suggests the next correct value for the specified cell or any empty cell if not specified.
+
+    Parameters
+    ----------
+    sudoku : SudokuGUI
+        The Sudoku game instance that contains the Sudoku grid.
+    row : int, optional
+        The row index of the cell to provide a hint for (default is None).
+    col : int, optional
+        The column index of the cell to provide a hint for (default is None).
+    """
     db_name = 'sudoku_database'
     engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
 
@@ -48,6 +79,14 @@ def hint_for_sudoku(sudoku, row = None, col = None):
     cell.setFocus()
 
 def save_sudoku(sudoku):
+    """
+    Saves the current state of the Sudoku puzzle to the database.
+
+    Parameters
+    ----------
+    sudoku : SudokuGUI
+        The Sudoku game instance that contains the Sudoku grid.
+    """
     user_id = sudoku.user_id
     db_name = 'sudoku_database'
     engine = create_engine(f'sqlite:///database/{db_name}.sqlite3')
@@ -67,7 +106,22 @@ def save_sudoku(sudoku):
     session.commit()
 
 def check_sudoku_for_win(sudoku_app):
+    """
+    Checks if the Sudoku puzzle is solved.
+
+    If the Sudoku puzzle is solved, displays a congratulatory message, resets the Sudoku puzzle in the database,
+    and navigates back to the previous screen.
+
+    Parameters
+    ----------
+    sudoku_app : sudoku_app
+        The Sudoku application instance that contains the Sudoku game.
     
+    Returns
+    -------
+    bool
+        True if the Sudoku puzzle is solved, False otherwise.
+    """
     if check_win(sudoku_app.sudoku):
         QMessageBox.about(sudoku_app, "Gratulacje", "Gratulacje, udało Ci się rozwiązać sudoku!")
         resetUsersSudoku(sudoku_app.sudoku.user_id, sudoku_app.sudoku.id)
@@ -75,9 +129,3 @@ def check_sudoku_for_win(sudoku_app):
         return True
 
     return False
-
-
-        
-
-
-
