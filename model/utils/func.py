@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from database.models import UsersSudoku_model, Sudoku_model, User_model
 from model.utils.classes import BlankCell, ComputerCell, SolvedCell
 import random, re
+import requests
 
 def get_board_from_file(filename):
     """
@@ -482,3 +483,12 @@ def is_solvable(sudoku_string):
                 return False
     
     return True
+
+def get_sudoku_from_api():
+    url = 'https://sugoku.onrender.com/board?difficulty=random'
+    response = requests.get(url)
+    data = response.json()
+
+    sudoku_board = data['board']
+    sudokut_string = flatten_to_string(sudoku_board)
+    return sudokut_string

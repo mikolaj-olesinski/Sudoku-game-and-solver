@@ -1,4 +1,4 @@
-from model.utils.func import get_sudoku_string_from_file, is_valid
+from model.utils.func import get_sudoku_string_from_file, is_valid, get_sudoku_from_api
 from view.sudoku_adder_gui import AddSudokuGUI
 from controller.apps.sudoku_creator_app import SudokuCreatorApp
 from PySide6.QtWidgets import QMessageBox, QFileDialog
@@ -36,6 +36,9 @@ class SudokuAdderApp(AddSudokuGUI):
 
     addSudokuFromImage():
         Opens a file dialog for the user to select an image file containing a Sudoku puzzle and processes the image to extract the puzzle.
+
+    generateSudoku():
+        Generates a Sudoku puzzle from an API endpoint and opens the Sudoku creator app with the puzzle data.
     """
 
     def __init__(self, sudoku_picker_app):
@@ -80,6 +83,8 @@ class SudokuAdderApp(AddSudokuGUI):
             self.addSudokuFromUser()
         elif options == 'Dodaj ze zdjecia':
             self.addSudokuFromImage()
+        elif options == 'Wygeneruj':
+            self.generateSudoku()
 
     def addSudokuFromUser(self):
         """Opens the Sudoku creator application for the user to manually create a Sudoku puzzle."""
@@ -133,3 +138,14 @@ class SudokuAdderApp(AddSudokuGUI):
                     QMessageBox.warning(self, 'Błąd', 'Niepoprawny format Sudoku lub Sudoku nie jest rozwiązywalne.')
             except Exception as e:
                 QMessageBox.critical(self, 'Błąd', f'Wystąpił błąd podczas wczytywania pliku: {str(e)}')
+
+
+    def generateSudoku(self):
+        """Generates a Sudoku puzzle from an API endpoint and opens the Sudoku creator app with the puzzle data."""
+        try:
+            sudoku_string = get_sudoku_from_api()
+            sudoku_creator_app = SudokuCreatorApp(sudoku_picker_app=self.sudoku_picker_app, data=sudoku_string)
+            sudoku_creator_app.show()
+            self.close()
+        except Exception as e:
+            QMessageBox.critical(self, 'Błąd', f'Wystąpił błąd podczas generowania Sudoku: {str(e)}')

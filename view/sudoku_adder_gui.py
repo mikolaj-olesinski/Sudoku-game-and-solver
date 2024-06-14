@@ -27,7 +27,7 @@ class AddSudokuGUI(QMainWindow):
         # Widgets setup
         self.option_label = QLabel("Wybierz sposób dodania sudoku:")
         self.option_combo_box = QComboBox()
-        self.option_combo_box.addItems(["Dodaj z pliku", "Stwórz własny", "Dodaj ze zdjecia"]) 
+        self.option_combo_box.addItems(["Dodaj z pliku", "Stwórz własny", "Dodaj ze zdjecia", "Wygeneruj"])
 
         self.go_back_button = QPushButton("Cofnij")
         self.go_back_button.setObjectName("go_back_button")
