@@ -5,6 +5,7 @@ from model.utils.func import import_data_from_db
 from controller.apps.sudoku_game_app import sudoku_app
 from database.deleteData import deleteUsersSudoku
 from database.resetData import resetUsersSudoku
+from database.getData import get_username_from_id
 import os
 
 class SudokuModel(QAbstractTableModel):
@@ -46,7 +47,7 @@ class SudokuModel(QAbstractTableModel):
         - int: Number of rows in the model.
         """
         if not self.sudoku_data:
-            return 1  # Display a placeholder row when no data is available
+            return 1 
         return len(self.sudoku_data)
 
     def columnCount(self, parent=QModelIndex()):
@@ -60,8 +61,8 @@ class SudokuModel(QAbstractTableModel):
         - int: Number of columns in the model.
         """
         if not self.sudoku_data:
-            return 1  # Display a placeholder column when no data is available
-        return len(self.sudoku_data[0]) + 3  # Extra columns for Start, Reset, and Delete buttons
+            return 1
+        return len(self.sudoku_data[0]) + 3 
 
     def data(self, index, role=Qt.DisplayRole):
         """
@@ -76,11 +77,11 @@ class SudokuModel(QAbstractTableModel):
         """
         if not self.sudoku_data:
             if role == Qt.DisplayRole and index.row() == 0 and index.column() == 0:
-                return "No data available"  # Placeholder text when no data is available
+                return "No data available"  
             return None
 
         if role == Qt.DisplayRole:
-            if index.column() < 6:  # Display the main Sudoku data
+            if index.column() < 6:
                 return self.sudoku_data[index.row()][index.column()]
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
@@ -97,7 +98,7 @@ class SudokuModel(QAbstractTableModel):
         """
         if role == Qt.DisplayRole:
             if not self.sudoku_data:
-                return ""  # Empty header when no data is available
+                return ""  
             if orientation == Qt.Horizontal:
                 headers = ['id', 'difficulty', 'created', 'timer', 'started', 'last saved', 'Start', 'Reset', 'Delete']
                 return headers[section]
@@ -111,7 +112,7 @@ class SudokuModel(QAbstractTableModel):
         - order (Qt.SortOrder): Sort order (Ascending or Descending).
         """
         self.layoutAboutToBeChanged.emit()
-        if self.sudoku_data and column < 6:  # Sort only by columns containing Sudoku data
+        if self.sudoku_data and column < 6: 
             self.sudoku_data.sort(key=lambda x: x[column], reverse=order == Qt.DescendingOrder)
         self.layoutChanged.emit()
 
@@ -178,7 +179,7 @@ class ButtonDelegate(QStyledItemDelegate):
         - bool: True if the event was processed; otherwise False.
         """
         if not model.sudoku_data:
-            return False  # Do not process events if no Sudoku data is available
+            return False 
 
         if event.type() == QMouseEvent.MouseButtonRelease and index.column() == 6:
             self._handleStartButtonClick(model, index)
@@ -370,7 +371,7 @@ class SudokuPicker(QWidget):
         """
         self.cams = sudoku_app(self.user_id, sudoku_id, self)
         self.cams.show()
-        self.cams.setWindowTitle(f"User: {self.user_id}")
+        self.cams.setWindowTitle(f"User: {get_username_from_id(self.user_id)} - Sudoku ID: {sudoku_id}")
         self.app.hide()
 
     def update_data(self):

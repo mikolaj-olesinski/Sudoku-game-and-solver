@@ -33,7 +33,6 @@ class TopWidgetForSudokuPicker(QWidget):
         self.setLayout(layout)
         self.setFixedHeight(50)
 
-        # Load back icon from resources
         back_icon_path = os.path.abspath(os.path.join("constants", "resources", "back.png"))
         cofniecie_icon = QPixmap(back_icon_path).scaled(30, 30, Qt.KeepAspectRatio, Qt.SmoothTransformation)
 
