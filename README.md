@@ -1,3 +1,4 @@
+Sudoku game with graphical user interface based on solving Sudoku puzzles, importing new puzzles from files and images, creating new puzzles, and providing a preview of solutions for each puzzle.
 # Sudoku game and solver
 
 ## Project describtion
