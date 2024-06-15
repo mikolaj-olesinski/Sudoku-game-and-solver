@@ -15,7 +15,7 @@ Sudoku game with graphical user interface based on solving Sudoku puzzles, impor
 - **File-Based Sudoku Import**: Allow users to import Sudoku puzzles from text files (.txt)
 - **Image-Based Sudoku Input (OpenCV)**: Enable users to input Sudoku puzzles from images using OpenCV.
 - **Custom Sudoku Creation**: Provide tools for users to create their own Sudoku puzzles.
-- **Generate Sudoku Puzzles**: Generate new Sudoku puzzles from API (https://github.com/bertoort/sugoku)
+- **Generate Sudoku Puzzles**: Generate new Sudoku puzzles from API
 - **Backtracking Algorithm for Solving**: Implement a backtracking algorithm to solve Sudoku puzzles.
 - **GUI**: All of the features have GUI created in PySide6
 
@@ -78,4 +78,8 @@ https://github.com/mikolaj-olesinski/Sudoku-game-and-solver/assets/137785302/688
    ```bash
    python app.py
    ```
+
+
+   ## Credits
+   API used for generating sudoku (https://github.com/bertoort/sugoku)
 
