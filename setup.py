@@ -5,12 +5,12 @@ setup(
     version='0.1', 
     packages=find_packages(),  
     install_requires=[
-        'numpy==1.23.5',
+        'numpy==1.23.5', 
         'opencv-python==4.7.0.72',
-        'PySide6==6.5.0',
-        'protobuf==3.20.3',
-        'tensorflow==2.12.0',
-        'sqlalchemy==2.0.0',
+        'PySide6==6.7.1',        
+        'protobuf==3.20.3',   
+        'tensorflow==2.12.0',    
+        'sqlalchemy==2.0.0',      
     ],
     entry_points={
         'console_scripts': [
