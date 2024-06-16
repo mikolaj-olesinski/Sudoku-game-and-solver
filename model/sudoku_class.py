@@ -165,7 +165,18 @@ class Sudoku(QWidget):
                 self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                 cell.setText('')
 
-        self.update_colors_on_board()
+            # Validate the board
+            if isinstance(cell, BlankCell) and cell.text() != '':
+                cell_row = int(cell.objectName().split('_')[1])
+                cell_col = int(cell.objectName().split('_')[2])
+                square_row = cell_row // 3
+                square_col = cell_col // 3
+
+                square = self.squares[f'square_{square_row}_{square_col}']
+                if not square.validate_square(cell) or not self.validate_column(cell) or not self.validate_row(cell):
+                    cell.setStyleSheet("color: red;")
+
+
 
     def update_colors_on_board(self):
         """

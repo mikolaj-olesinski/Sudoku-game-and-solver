@@ -4,7 +4,7 @@ from controller.controls.sudoku_control import validate_cell_changed_text
 from database.addData import addSudoku
 from PySide6.QtWidgets import QMessageBox
 
-class SudokuCreatorApp(SudokuCreatorGUI):
+class  SudokuCreatorApp(SudokuCreatorGUI):
     """
     The SudokuCreatorApp class provides functionality for creating and validating Sudoku puzzles.
     It allows users to input Sudoku puzzles manually and save them to a database if they are solvable.
