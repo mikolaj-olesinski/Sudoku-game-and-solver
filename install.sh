@@ -8,7 +8,6 @@ sudo apt-get install -y python3-venv python3-dev
 
 # Instalacja pakietów
 sudo apt-get install -y pkg-config build-essential libdouble-conversion-dev
-apt-get install -y h5py
 
 # Tworzenie wirtualnego środowiska
 python3 -m venv venv
@@ -17,6 +16,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # Instalacja setuptools
+pip install h5py
 pip install setuptools
 
 # Instalacja pakietów z requirements.txt, jeśli istnieje
