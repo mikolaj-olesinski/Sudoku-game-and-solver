@@ -1,6 +1,7 @@
 from PySide6.QtGui import QValidator, QPixmap
 from PySide6.QtWidgets import QLineEdit, QWidget, QLabel, QHBoxLayout
 from PySide6.QtCore import QTimer, Qt
+import platform
 import os
 
 class NonZeroValidator(QValidator):
@@ -112,6 +113,8 @@ class BlankCell(QLineEdit):
         """
         super().__init__()
         self.setStyleSheet(f'color: {color};')
+        if platform.system() == 'Linux':
+            self.setStyleSheet(f'color: black;')
 
     def copy_properties(self, other):
         """

@@ -3,6 +3,7 @@ from view.sudoku_creator_gui import SudokuCreatorGUI
 from controller.controls.sudoku_control import validate_cell_changed_text
 from database.addData import addSudoku
 from PySide6.QtWidgets import QMessageBox
+import platform
 
 class  SudokuCreatorApp(SudokuCreatorGUI):
     """
@@ -43,7 +44,10 @@ class  SudokuCreatorApp(SudokuCreatorGUI):
         super().__init__()
         self.sudoku_picker_app = sudoku_picker_app
         if data:
-            self.sudoku.update_board(get_board_from_string(data), blank_cell_color='white')
+            if platform.system() == 'Linux':
+                self.sudoku.update_board(get_board_from_string(data), blank_cell_color='black')
+            else:
+                self.sudoku.update_board(get_board_from_string(data), blank_cell_color='white')
 
         self._connect_cells(self.sudoku.cells)
         self._connect_buttons()
@@ -58,7 +62,10 @@ class  SudokuCreatorApp(SudokuCreatorGUI):
             A dictionary of cell widgets in the Sudoku board.
         """
         for _, cell in cells.items():
-            cell.editingFinished.connect(lambda cell=cell: validate_cell_changed_text(cell, self.sudoku, color='white'))
+            if platform.system() == 'Linux':
+                cell.editingFinished.connect(lambda cell=cell: validate_cell_changed_text(cell, self.sudoku, color='black'))
+            else:
+                cell.editingFinished.connect(lambda cell=cell: validate_cell_changed_text(cell, self.sudoku, color='white'))
 
     def _connect_buttons(self):
         """Connects the save and back buttons to their respective handler methods."""
