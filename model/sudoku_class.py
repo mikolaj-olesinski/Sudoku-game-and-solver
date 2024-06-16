@@ -164,8 +164,7 @@ class Sudoku(QWidget):
                 cell = BlankCell(blank_cell_color)
                 self.switch_cell(cell, int(cell_name.split('_')[1]), int(cell_name.split('_')[2]))
                 cell.setText('')
-
-            # Validate the board
+                
             if isinstance(cell, BlankCell) and cell.text() != '':
                 cell_row = int(cell.objectName().split('_')[1])
                 cell_col = int(cell.objectName().split('_')[2])
