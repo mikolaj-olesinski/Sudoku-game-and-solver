@@ -78,6 +78,9 @@ class ComputerCell(QLineEdit):
         """
         super().__init__()
         self.setStyleSheet('color: #ddd;')
+        if platform.system() == 'Linux':
+            self.setStyleSheet('color: black;')
+            
         self.setReadOnly(True)
 
     def copy_properties(self, other):
