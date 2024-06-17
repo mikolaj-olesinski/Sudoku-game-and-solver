@@ -3,7 +3,7 @@ from model.utils.func import get_hint_for_sudoku, databaseData_to_grid, get_data
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.models import Sudoku_model, UsersSudoku_model
-from database.resetData import resetUsersSudoku
+from database.addData import addSolvedSudoku
 from datetime import datetime
 from PySide6.QtWidgets import QMessageBox
 import time
@@ -145,6 +145,10 @@ def check_sudoku_for_win(sudoku_app):
         True if the Sudoku puzzle is solved, False otherwise.
     """
     if check_win(sudoku_app.sudoku):
+        user_id = sudoku_app.sudoku.user_id
+        sudoku_id = sudoku_app.sudoku.id
+        addSolvedSudoku(user_id, sudoku_id)
+        
         msg_box = QMessageBox(sudoku_app)
         msg_box.setIcon(QMessageBox.Information)
         msg_box.setWindowTitle("Gratulacje")

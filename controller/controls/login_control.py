@@ -30,27 +30,22 @@ def login_user(login_window):
     session = Session()
 
     username = login_window.username_input.text()
-
-    # Check if username is valid
+    
     if not check_username(username):
         QMessageBox.warning(login_window, "Błąd", "Nazwa użytkownika zawiera niedozwolone znaki lub nieodpowiednią długość. Spróbuj ponownie.")
         login_window.username_input.clear()
     else:
-        # Check if the user already exists in the database
         if session.query(User_model).filter_by(name=username).first():
             pass
         else:
-            # If the user does not exist, add them to the database
             QMessageBox.information(login_window, "Informacja", f"Utworzono nowego użytkownika: {username}.")
             addUser(username)
 
-        # Retrieve the user's ID
         user_id = session.query(User_model).filter_by(name=username).first().id
 
         session.close()
         print(f"User {username}, {user_id} logged in")
 
-        # Initialize and show the Sudoku picker application for the user
         login_window.cams = sudoku_picker_app(user_id, login_window)
         login_window.cams.show()
         login_window.cams.setWindowTitle(f"Użytkownik: {username}")

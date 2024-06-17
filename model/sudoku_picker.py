@@ -81,7 +81,7 @@ class SudokuModel(QAbstractTableModel):
             return None
 
         if role == Qt.DisplayRole:
-            if index.column() < 6:
+            if index.column() < 7:
                 return self.sudoku_data[index.row()][index.column()]
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
@@ -100,7 +100,7 @@ class SudokuModel(QAbstractTableModel):
             if not self.sudoku_data:
                 return ""  
             if orientation == Qt.Horizontal:
-                headers = ['id', 'difficulty', 'created', 'timer', 'started', 'last saved', 'Start', 'Reset', 'Delete']
+                headers = ['id', 'difficulty', 'is solved', 'created', 'timer', 'started', 'last saved', 'Start', 'Reset', 'Delete']
                 return headers[section]
 
     def sort(self, column, order):
@@ -112,7 +112,7 @@ class SudokuModel(QAbstractTableModel):
         - order (Qt.SortOrder): Sort order (Ascending or Descending).
         """
         self.layoutAboutToBeChanged.emit()
-        if self.sudoku_data and column < 6: 
+        if self.sudoku_data and column < 7: 
             self.sudoku_data.sort(key=lambda x: x[column], reverse=order == Qt.DescendingOrder)
         self.layoutChanged.emit()
 
@@ -160,7 +160,7 @@ class ButtonDelegate(QStyledItemDelegate):
         - option (QStyleOptionViewItem): Style options for the item view.
         - index (QModelIndex): Index of the item to render.
         """
-        if self.sudoku_picker.model.sudoku_data and index.column() >= 6:
+        if self.sudoku_picker.model.sudoku_data and index.column() >= 7:
             self._drawButton(painter, option, index)
         else:
             super().paint(painter, option, index)
@@ -181,11 +181,11 @@ class ButtonDelegate(QStyledItemDelegate):
         if not model.sudoku_data:
             return False 
 
-        if event.type() == QMouseEvent.MouseButtonRelease and index.column() == 6:
+        if event.type() == QMouseEvent.MouseButtonRelease and index.column() == 7:
             self._handleStartButtonClick(model, index)
-        elif event.type() == QMouseEvent.MouseButtonRelease and index.column() == 7:
-            self._handleResetButtonClick(model, index)
         elif event.type() == QMouseEvent.MouseButtonRelease and index.column() == 8:
+            self._handleResetButtonClick(model, index)
+        elif event.type() == QMouseEvent.MouseButtonRelease and index.column() == 9:
             self._handleDeleteButtonClick(model, index)
         return super().editorEvent(event, model, option, index)
 
@@ -201,8 +201,8 @@ class ButtonDelegate(QStyledItemDelegate):
         """
         base_path = os.path.abspath(os.path.join("constants", "resources"))
         icons = ["play.png", "reset.png", "delete.png"]
-        if 6 <= index.column() <= 8:
-            return os.path.join(base_path, icons[index.column() - 6])
+        if 7 <= index.column() <= 9:
+            return os.path.join(base_path, icons[index.column() - 7])
         return "Button"
 
     def _drawButton(self, painter, option, index):

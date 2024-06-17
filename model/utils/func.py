@@ -349,7 +349,7 @@ def import_data_from_db(user_id):
     data = []
     for user_sudoku in users_sudoku:
         sudoku = session.query(Sudoku_model).filter(Sudoku_model.id == user_sudoku.sudoku_id).first()
-        data.append([sudoku.id, sudoku.difficulty, str(sudoku.created_at)[:19], user_sudoku.time, str(user_sudoku.started_at)[:19], str(user_sudoku.last_saved)[:19]])
+        data.append([sudoku.id, sudoku.difficulty, user_sudoku.is_solved, str(sudoku.created_at)[:19], user_sudoku.time, str(user_sudoku.started_at)[:19], str(user_sudoku.last_saved)[:19]])
 
     session.close()
     return data
