@@ -38,8 +38,22 @@ def login_user(login_window):
         if session.query(User_model).filter_by(name=username).first():
             pass
         else:
-            QMessageBox.information(login_window, "Informacja", f"Utworzono nowego użytkownika: {username}.")
-            addUser(username)
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Question)
+            msg_box.setWindowTitle("Potwierdzenie")
+            msg_box.setText("Czy na pewno chcesz utworzyć nowego użytkownika?")
+            
+            yes_button = msg_box.addButton("Yes", QMessageBox.YesRole)
+            no_button = msg_box.addButton("No", QMessageBox.NoRole)
+
+            msg_box.exec()
+
+            if msg_box.clickedButton() == yes_button:
+                QMessageBox.information(login_window, "Informacja", f"Utworzono nowego użytkownika: {username}.")
+                addUser(username)
+            else:
+                login_window.username_input.clear()
+                return
 
         user_id = session.query(User_model).filter_by(name=username).first().id
 
