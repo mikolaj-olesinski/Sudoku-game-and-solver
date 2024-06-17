@@ -7,7 +7,7 @@ sudo apt-get update
 sudo apt-get install -y python3-venv python3-dev
 
 # Instalacja pakietów
-sudo apt-get install -y pkg-config build-essential libdouble-conversion-dev
+sudo apt-get install -y pkg-config build-essential libdouble-conversion-dev libhdf5-dev
 
 # Tworzenie wirtualnego środowiska
 python3 -m venv venv
