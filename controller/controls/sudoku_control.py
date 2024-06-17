@@ -6,6 +6,7 @@ from database.models import Sudoku_model, UsersSudoku_model
 from database.resetData import resetUsersSudoku
 from datetime import datetime
 from PySide6.QtWidgets import QMessageBox
+import time
 
 def validate_cell_changed_text(cell, sudoku, color='blue'):
     """
@@ -78,6 +79,27 @@ def hint_for_sudoku(sudoku, row=None, col=None):
     cell.setText(str(value))
     cell.setFocus()
 
+def isFull(sudoku):
+    """
+    Checks if the Sudoku puzzle is completely filled.
+
+    Parameters
+    ----------
+    sudoku : SudokuGUI
+        The Sudoku game instance that contains the Sudoku grid.
+
+    Returns
+    -------
+    bool
+        True if the Sudoku puzzle is completely filled, False otherwise.
+    """
+    for row in range(9):
+        for col in range(9):
+            cell = sudoku.cells[f'cell_{row}_{col}']
+            if cell.text() == '':
+                return False
+    return True
+
 def save_sudoku(sudoku):
     """
     Saves the current state of the Sudoku puzzle to the database.
@@ -123,9 +145,13 @@ def check_sudoku_for_win(sudoku_app):
         True if the Sudoku puzzle is solved, False otherwise.
     """
     if check_win(sudoku_app.sudoku):
-        QMessageBox.about(sudoku_app, "Gratulacje", "Gratulacje, udało Ci się rozwiązać sudoku!")
-        resetUsersSudoku(sudoku_app.sudoku.user_id, sudoku_app.sudoku.id)
+        msg_box = QMessageBox(sudoku_app)
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setWindowTitle("Gratulacje")
+        msg_box.setText("Gratulacje, udało Ci się rozwiązać sudoku!")
+        msg_box.setStandardButtons(QMessageBox.Ok)
+
+        msg_box.exec_()
+        
         sudoku_app._handle_back_button()
         return True
-
-    return False

@@ -22,7 +22,6 @@ def resetUsersSudoku(user_id, sudoku_id):
         The ID of the Sudoku puzzle to be reset.
 
     """
-    # Resetting UsersSudoku_model attributes
     users_sudoku = session.query(UsersSudoku_model).filter(
         UsersSudoku_model.user_id == user_id,
         UsersSudoku_model.sudoku_id == sudoku_id
@@ -31,8 +30,8 @@ def resetUsersSudoku(user_id, sudoku_id):
     users_sudoku.last_saved = None
     users_sudoku.time = "00:00:00"
     users_sudoku.is_solved = False
+    users_sudoku.started_at = None
 
-    # Updating current_sudoku_state based on original Sudoku data
     sudoku_model = session.query(Sudoku_model).filter(Sudoku_model.id == sudoku_id).first()
     users_sudoku.current_sudoku_state = sudoku_data_to_saved_sudoku_data(sudoku_model.data)
 

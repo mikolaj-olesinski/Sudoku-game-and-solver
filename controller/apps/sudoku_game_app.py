@@ -1,6 +1,6 @@
 from model.utils.func import get_board_from_db
 from view.sudoku_game_gui import SudokuGUI
-from controller.controls.sudoku_control import validate_cell_changed_text, hint_for_sudoku, save_sudoku, check_sudoku_for_win
+from controller.controls.sudoku_control import validate_cell_changed_text, hint_for_sudoku, save_sudoku, check_sudoku_for_win, isFull
 from model.utils.classes import BlankCell
 from database.getData import get_timer
 from database.addData import addTimer
@@ -114,6 +114,8 @@ class sudoku_app(SudokuGUI):
         Handles the event when the hint button is clicked. This method provides a hint
         for the Sudoku puzzle and checks if the puzzle is solved.
         """
+        if isFull(self.sudoku):
+            return
         hint_for_sudoku(self.sudoku)
         check_sudoku_for_win(self)
 
