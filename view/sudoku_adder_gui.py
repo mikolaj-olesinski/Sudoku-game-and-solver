@@ -24,7 +24,6 @@ class AddSudokuGUI(QMainWindow):
         self.setWindowTitle("Dodaj Sudoku")
         self.setGeometry(100, 100, 300, 150)
 
-        # Widgets setup
         self.option_label = QLabel("Wybierz sposób dodania sudoku:")
         self.option_combo_box = QComboBox()
         self.option_combo_box.addItems(["Dodaj z pliku", "Stwórz własny", "Dodaj ze zdjecia", "Wygeneruj"])
@@ -35,7 +34,6 @@ class AddSudokuGUI(QMainWindow):
         self.add_button = QPushButton("Dodaj")
         self.add_button.setObjectName("add_button")
 
-        # Layout setup
         layout = QVBoxLayout()
         layout.addWidget(self.option_label, alignment=Qt.AlignCenter)
         layout.addWidget(self.option_combo_box)
@@ -48,7 +46,6 @@ class AddSudokuGUI(QMainWindow):
         layout.addLayout(layout_for_buttons)
         layout.setContentsMargins(20, 20, 20, 20)
 
-        # Main widget setup
         main_widget = QWidget()
         main_widget.setLayout(layout)
         self.setCentralWidget(main_widget)
